@@ -19,20 +19,25 @@
 #fsr = flexsurvreg(Surv(recyrs, censrec)~ 1, data = bc, dist = 'gamma')
 #gamma.rl(fsr, 10, .99, 'all')
 
-residlife <- function(data, x, p=.5, type = 'all', dist = ' ') {
-  if (dist ==' '){
-    return ('Please Specify Distribution!')
-  }
-  if (dist == 'gamma'){
+residLife <- function(data, x, p=.5, type = 'all') {
+  if (data$dlist$name == 'gamma'){
     return(gamma.rl(data, x, p, type))
   }
+  if (data$dlist$name == 'gompertz'){
+    return(gompertz.rl(data, x, p, type))
+  }
+  if (data$dlist$name == 'llogis'){
+    return(llogis.rl(data, x, p, type))
+  }
+  if (data$dlist$name == 'exp'){
+    return(exp.rl(data, x, p, type))
+  }
+  if (data$dlist$name == 'lnorm'){
+    return(lnorm.rl(data, x, p, type))
+  }
+
   #add in other if statements
   else{
     return('Invalid Distribution!')
   }
-  print("Hello, world!")
-  print("Hello, world")
-
-
-
 }

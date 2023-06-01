@@ -1,3 +1,4 @@
 exportPattern("^[[:alpha:]]+")
 #' @import flexsurv
 #' @import pracma
+#' @import stats

@@ -1,14 +1,15 @@
 data("bc")
-fsr = flexsurvreg(Surv(recyrs, censrec)~ 1, data = bc, dist = 'llogis')
-length(fsr$coefficients)
+fsr = flexsurvreg(Surv(recyrs, censrec)~ group, data = bc, dist = 'llogis')
+fsr$coefficients
 fsr$res[1][1]
 fsr
 
+lambda = (exp(as.matrix(fsr$data$mml$rate) %*% as.numeric(fsr$coefficients[-1])))
 
 
-llogis.rl = function(fsr, x, p=.5, type = 'all'){
-  a = fsr$res[1][1]
-  lambda = fsr$res[2][1]
+llogis.rl = function(fsroutput, x, p=.5, type = 'all'){
+  a = fsroutput$coefficients[1]
+  lambda = (exp(as.matrix(fsroutput$data$mml$scale) %*% as.numeric(fsroutput$coefficients[-1])))
   sx = (1+(x/lambda)^a)^-1
   zx = ((x/lambda)^a)/(1+(x/lambda)^a)
   shapez = 1- (1/a)
@@ -35,4 +36,4 @@ llogis.rl = function(fsr, x, p=.5, type = 'all'){
     return('invalid type')
   }
 }
-llogis.rl(fsr, 14, .875, 'all')
+llogis.rl(fsr, 14, .66, 'percentile')
