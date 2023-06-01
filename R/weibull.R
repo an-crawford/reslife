@@ -1,6 +1,5 @@
 #install.packages('flexsurv')
 #install.packages('survival')
-library(survival)
 library(flexsurv)
 
 #input and output
@@ -33,35 +32,47 @@ library(flexsurv)
 
 
 ### Written by Zekai Wang ###
-fse <- flexsurvreg(Surv(recyrs, censrec) ~ group, data = bc, dist = "exp")
-fsw <- flexsurvreg(Surv(recyrs, censrec) ~ group, data = bc, dist = "weibull")
 
 weibull_mlr <- function(fsoutput,life){
   
   if (fsoutput$dlist$name != "weibull.quiet") {
-    print("error")
+    print("wrong distribution")
   }
   
   else  {
     
     para_vect = fsoutput$coefficients
-    shape = para_vect[1]
-    scale = para_vect[2]
-    zx = life^shape
-    S_zt = exp(-scale*(zx^shape))
-    #S_t = exp(-((life/scale)^shape))
-    S_t = exp(-scale*(life^shape))
-    scale_para = exp(as.matrix(fsoutput$data$mml$scale) %*% as.numeric(para_vect[c(2:length(para_vect))]))
-    mx <- as.numeric((((scale_para^shape)/shape)*gamma(1/shape)*S_zt)/(S_t))
+    shape_para = para_vect[1]
+    scale_para = para_vect[2]
+    zx = life^shape_para
+    S_zt = exp(-((zx/scale_para)^shape_para))
+    S_t = exp(-((life/scale_para)^shape_para))
+    #S_t = -scale*(life^shape)
     
-    result_df <- data.frame(level = unique(fsw$data$m$group), 
-                           mean = unique(mx), 
-                           stringsAsFactors=FALSE)
+    if (fsoutput$ncovs == 0){
+      
+      mx <- as.numeric((((scale_para^shape_para)/shape_para)*gamma(1/shape_para)*S_zt)/(S_t))
+      
+    }
+    else{
+      
+      scale_para = exp(as.matrix(fsoutput$data$mml$scale) %*% as.numeric(para_vect[c(2:length(para_vect))]))
+      mx <- as.numeric((((scale_para^shape_para)/shape_para)*gamma(1/shape_para)*S_zt)/(S_t))
+      
+    }
     
-    return (result_df)
+    
+    return (mx)
     
   }
   
 }
 
-weibull_mlr(fsw, 1)
+#test case
+
+
+fse <- flexsurvreg(Surv(recyrs, censrec) ~ group, data = bc, dist = "exp")
+fsw <- flexsurvreg(Surv(recyrs, censrec) ~ group, data = bc, dist = "weibull")
+fsw2 <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc, dist = "weibull")
+
+weibull_mlr(fs_s, 1)
