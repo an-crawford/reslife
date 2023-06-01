@@ -4,15 +4,10 @@ library(flexsurv)
 
 #input and output
 #input
-#flexresurv(response_var, <- string
-#           censor_indcator, <- string
-#           variable_vector, <- vector of strings, 1 for non-variable
-#           data_name, <- string, dataframe name
-#           dist_name, <- string
-#           type <- string, what type of residual lifetime function
+#flexresurv(fsoutput, <- object
 #           life), <- float > 0
 
-#output mlr(life)
+#output numerics
 
 #inside of main function
 #fs <- flexsurvreg(Surv(response_var, censor_indcator) ~ variable_vector, 
