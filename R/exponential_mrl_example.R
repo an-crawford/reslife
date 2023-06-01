@@ -3,16 +3,25 @@
 ###Load flexsurv
 library(flexsurv)
 
+#data(package='survival')
+
 ###Check dataset bc
 head(bc)
 
 ###Run Weibull
 fsw<-flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "weibull")
-fsw$coefficients
+fsw$coefficients #the other way
+fsw$res #positive-enforced parameters
+
+fsw$ncovs #number of covariates
+
+fsw$dlist$name
 
 ###Run Exponential
 fse<-flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "exp")
+fse$dlist$name
 fse$coefficients
+
 
 ###Exponential MRL function
 exp_mrl <- function(fsoutput,life) {
@@ -22,11 +31,18 @@ exp_mrl <- function(fsoutput,life) {
   }
   
   else  {
-
-  mean_res_life = 1/exp(as.matrix(fsoutput$data$mml$rate) %*% as.numeric(fsoutput$coefficients));
-  
-  return (mean_res_life)
-  
+    
+    if (fsoutput$ncovs == 0) {
+      
+      mean_res_life = 1/exp(fsoutput$coefficients)
+      
+    }
+    
+    else {
+      mean_res_life = 1/exp(as.matrix(fsoutput$data$mml$rate) %*% as.numeric(fsoutput$coefficients));
+    }
+    return (mean_res_life)
+    
   }
 }
 
@@ -35,4 +51,44 @@ exp_mrl(fse,1)
 
 ###Calculate using the wrong object
 exp_mrl(fsw,1)
+
+
+
+###Simulation
+
+N=100000
+
+b0 <- 0.5
+b1 <- 1
+b2 <- -.2
+
+x0 <- rep(1,N)
+x1 <- rnorm(N, .1, .2)
+x2 <- rbinom(N,1,.6)
+
+rr <- exp(cbind(x0,x1,x2) %*% c(b0,b1,b2))
+length(rr)
+time <- rexp(N, rate=rr)
+length(time)
+mean(time)
+
+time_2 = pmin(.5,time)
+event = ifelse(time_2<.5,1,0)
+
+exp_df <- data.frame( t = time_2,
+                  status = event,
+                  x1 = x1,
+                  x2 = x2)
+
+head(exp_df)
+
+fs_s<-flexsurvreg(formula = Surv(t, status) ~ x1 +x2 , data = exp_df,dist = "exp")
+
+fs_s$coefficients
+
+
+fs_s<-flexsurvreg(formula = Surv(t, status) ~ 1 , data = exp_df,dist = "exp")
+fs_s$ncovs
+fs_s$res
+fs_s$coefficients
 
