@@ -18,7 +18,7 @@ fsw$ncovs #number of covariates
 fsw$dlist$name
 
 ###Run Exponential
-fse<-flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "exp")
+fse<-flexsurvreg(formula = Surv(recyrs, censrec) ~ 1, data = bc,dist = "exp")
 fse$dlist$name
 fse$coefficients
 
@@ -47,7 +47,20 @@ exp_mrl <- function(fsoutput,life) {
 }
 
 ###Calculate MRL
-exp_mrl(fse,1)
+unique(exp_mrl(fse,1))
+
+### plot with multiple "life's"
+
+life_vector = seq(1:10)
+exp_mrl_many = seq(1:10)
+for (i in life_vector) {
+  
+  exp_mrl_many[i] = exp_mrl(fse,i)
+  
+}
+
+
+plot(life_vector, exp_mrl_many, type="l")
 
 ###Calculate using the wrong object
 exp_mrl(fsw,1)
@@ -87,8 +100,11 @@ fs_s<-flexsurvreg(formula = Surv(t, status) ~ x1 +x2 , data = exp_df,dist = "exp
 fs_s$coefficients
 
 
+
+
 fs_s<-flexsurvreg(formula = Surv(t, status) ~ 1 , data = exp_df,dist = "exp")
 fs_s$ncovs
 fs_s$res
 fs_s$coefficients
+
 
