@@ -18,31 +18,31 @@ fsw$ncovs #number of covariates
 fsw$dlist$name
 
 ###Run Exponential
-fse<-flexsurvreg(formula = Surv(recyrs, censrec) ~ 1, data = bc,dist = "exp")
+fse<-flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "exp")
 fse$dlist$name
 fse$coefficients
 
 
 ###Exponential MRL function
 exp_mrl <- function(fsoutput,life) {
-  
+
   if (fsoutput$dlist$name != 'exp') {
     print("error")
   }
-  
+
   else  {
-    
+
     if (fsoutput$ncovs == 0) {
-      
+
       mean_res_life = 1/exp(fsoutput$coefficients)
-      
+
     }
-    
+
     else {
       mean_res_life = 1/exp(as.matrix(fsoutput$data$mml$rate) %*% as.numeric(fsoutput$coefficients));
     }
     return (mean_res_life)
-    
+
   }
 }
 
@@ -54,9 +54,9 @@ unique(exp_mrl(fse,1))
 life_vector = seq(1:10)
 exp_mrl_many = seq(1:10)
 for (i in life_vector) {
-  
+
   exp_mrl_many[i] = exp_mrl(fse,i)
-  
+
 }
 
 

@@ -1,12 +1,14 @@
-data("bc")
-fsr = flexsurvreg(Surv(recyrs, censrec)~ group, data = bc, dist = 'exp')
-fsr$coefficients
-fsr$res[1][1]
-fsr
-
+###########################
+##Author: Andrew Crawford##
+###########################
 
 exp.rl <- function(fsoutput,x, p=.5, type = 'all') {
-  lambda = 1/exp(as.matrix(fsoutput$data$mml$rate) %*% as.numeric(fsoutput$coefficients));
+  if (fsoutput$ncovs == 0) {
+    lambda = 1/exp(fsoutput$coefficients)
+  }
+  else {
+    lambda = 1/exp(as.matrix(fsoutput$data$mml$rate) %*% as.numeric(fsoutput$coefficients));
+  }
   mx = lambda
   sx = exp(-(1/lambda)*x)
   px = function(p){
@@ -29,4 +31,4 @@ exp.rl <- function(fsoutput,x, p=.5, type = 'all') {
     return('invalid type')
   }
 }
-exp.rl(fsr, 12, .5, 'mean')
+
