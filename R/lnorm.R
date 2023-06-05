@@ -14,10 +14,23 @@ lnorm.rl = function(fsroutput, x, p=.5, type = 'all'){
   #mu <- exp(meanlog + (1/2)*sdlog^2)
   #sigma <- exp(meanlog + (1/2)*sdlog^2)*sqrt(exp(sdlog^2) - 1)
   sx = plnorm(x, meanlog = mu, sdlog = sigma, lower.tail=FALSE)
-  mx = x+exp(mu + (sigma^2)/2)*(plnorm(x, meanlog = (mu + sigma^2), sdlog = sigma, lower.tail = FALSE))/sx
+  #mx = as.numeric(exp(mu + (sigma^2)/2)*(plnorm(x, meanlog = (mu + sigma^2), sdlog = sigma, lower.tail = FALSE))/sx)
+  if (fsroutput$ncovs == 0){
+    inte = function(t) {plnorm(t, meanlog = mu, sdlog = sigma, lower.tail=FALSE)}
+    v = integrate(inte, lower = x, upper= Inf)
+    mx = as.numeric(v$value/sx)
+  }
+  else{
+    mx = vector('numeric', length = length(mu))
+    for (i in 1:length(mu)){
+      integ = function(t) {plnorm(t, meanlog = mu[i], sdlog = sigma, lower.tail=FALSE)}
+      v = integrate(integ, lower = x, upper= Inf)
+      mx[i] = v$value/sx[i]
+    }
+  }
   px = function(p){
     pc = (1-p)*sx
-    px = qlnorm(pc, meanlog = mu, sdlog =sigma, lower.tail = FALSE)
+    px = as.numeric(qlnorm(pc, meanlog = mu, sdlog =sigma, lower.tail = FALSE)-x)
   }
   if (type=='mean'){
     return(list('mean'= mx))
@@ -29,10 +42,11 @@ lnorm.rl = function(fsroutput, x, p=.5, type = 'all'){
     return(list('percentile'= px(p)))
   }
   if (type == 'all'){
-    return(list("mean" = mx, 'median' = px(.5), 'percentile' = px(p)))
+    return(list("mean" = mx,  'median' = px(.5), 'percentile' = px(p)))
   }
   else{
     return('invalid type')
   }
 }
+
 

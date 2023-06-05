@@ -10,15 +10,14 @@ gamma.rl = function(fsroutput, x, p=.5, type = 'all'){
   }
   else{
     s = fsr$coefficients
-    s[2] = exp(s[2])
-    lambda = 1/(as.matrix(fsroutput$data$mml$rate) %*% as.numeric(s[-1]))
+    lambda = 1/exp(as.matrix(fsroutput$data$mml$rate) %*% as.numeric(s[-1]))
   }
   #lambda = 1/(exp(as.matrix(fsroutput$data$mml$rate) %*% as.numeric(fsroutput$coefficients[-1])))
   sx = pgamma(x, shape = a, scale = lambda, lower.tail = FALSE)
-  mx = ((x^a)*exp(-x/lambda))/((lambda^(a-1))*gamma(a)*sx)+(lambda*a)
+  mx = as.numeric(((x^a)*exp(-x/lambda))/((lambda^(a-1))*gamma(a)*sx)+(lambda*a) - x)
   px = function(p){
     pc = (1-p)*sx
-    px = qgamma(pc, shape = a, scale = lambda, lower.tail = FALSE)
+    px = as.numeric(qgamma(pc, shape = a, scale = lambda, lower.tail = FALSE) - x)
   }
   if (type=='mean'){
     return(list('mean'= mx))
@@ -37,4 +36,4 @@ gamma.rl = function(fsroutput, x, p=.5, type = 'all'){
   }
 }
 
-
+gamma.rl(fsr, 9, p = .7, type = 'all')
