@@ -44,7 +44,7 @@ weibull_mlr <- function(fsoutput,life, p=.5, type){
     else{
       scale_para = exp(as.matrix(fsoutput$data$mml$scale) %*% as.numeric(para_vect[c(2:length(para_vect))]))
     }
-    life_vec = rep(life, times = length(scale_para))
+    #life_vec = rep(life, times = length(scale_para))
     zx = life^shape_para
     #S_zt = exp(-((zx/scale_para)^shape_para))
     S_t = exp(-((life/scale_para)^shape_para))

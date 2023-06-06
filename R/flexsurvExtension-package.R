@@ -10,3 +10,8 @@ NULL
 #' @import flexsurv
 ## usethis namespace: end
 NULL
+
+## usethis namespace: start
+#' @importFrom zipfR Rbeta
+## usethis namespace: end
+NULL

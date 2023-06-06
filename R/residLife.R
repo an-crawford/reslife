@@ -13,6 +13,18 @@
 #
 #Written by: Andrew Crawford and Zekai Wang
 
+
+#' Calculate Residual Life Values
+#'
+#' @param data Name of a 'flexsurvreg' object from which data is extracted
+#' @param life Value of the 'given' used to calculate residual life
+#' @param p percentile, default is .5
+#' @param type can be 'mean', 'median', 'percentile', or 'all'. Default is 'mean'
+#'
+#' @return Residual life values
+#' @export
+#'
+#' @examples
 residLife <- function(data, life, p=.5, type = 'mean') {
   if (data$dlist$name == 'gamma'){
     return(gamma.rl(data, life, p, type))

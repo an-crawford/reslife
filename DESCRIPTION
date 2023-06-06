@@ -8,9 +8,8 @@ Authors@R: c(person("Andrew", "Crawford",
     role = c('cre', 'aut')), 
     person("Zekai", "Wang",
     email='wangzekai1203@gmail.com',
-    role = c('aut', 'cre'))
+    role = c('aut'))
       )
-Maintainer: The package maintainer <yourself@somewhere.net>
 Description: A function for calculating mean, median, and/or percentile 
     residual life using the outputs of the flexsurv package. Input the 
     'flexsurvreg' object, the given 'life' value, the percentile, and
