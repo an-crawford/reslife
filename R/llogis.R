@@ -40,7 +40,3 @@ llogis.rl = function(fsroutput, x, p=.5, type = 'all'){
     return('invalid type')
   }
 }
-library(flexsurv)
-fsr = flexsurvreg(Surv(recyrs, censrec)~ group, data = bc, dist = 'llogis')
-llogis.rl(fsr, 7, .99, 'mean')
-fsr$dlist$name

@@ -36,7 +36,5 @@ gompertz.rl = function(fsroutput, x, p=.5, type = 'all'){
     return('invalid type')
   }
 }
-fsr = flexsurvreg(Surv(recyrs, censrec)~ group, data = bc, dist = 'gompertz')
-residLife(fsr, 6, p = .76, type = 'all')
 
 

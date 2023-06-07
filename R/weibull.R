@@ -44,25 +44,8 @@ weibull_mlr <- function(fsoutput,life, p=.5, type){
     else{
       scale_para = exp(as.matrix(fsoutput$data$mml$scale) %*% as.numeric(para_vect[c(2:length(para_vect))]))
     }
-    #life_vec = rep(life, times = length(scale_para))
-    zx = life^shape_para
-    #S_zt = exp(-((zx/scale_para)^shape_para))
     S_t = exp(-((life/scale_para)^shape_para))
-    #S_t = -scale*(life^shape)
-    #mx <- as.numeric((((scale_para^shape_para)/shape_para)*gamma(1/shape_para)*S_zt)/(S_t))
-    if (fsoutput$ncovs == 0){
-      inte = function(x) {exp(-((x/scale_para)^shape_para))}
-      v = integrate(inte, lower = life, upper= Inf)
-      mx = as.numeric(v$value/S_t)
-    }
-    else{
-      mx = vector('numeric', length = length(scale_para))
-      for (i in 1:length(scale_para)){
-        integ = function(x) {exp(-((x/scale_para[i])^shape_para))}
-        v = integrate(integ, lower = life, upper= Inf)
-        mx[i] = v$value/S_t[i]
-      }
-    }
+    mx = as.numeric((scale_para/shape_para)*exp((life/scale_para)^shape_para)*Vectorize(pracma::incgam)((life/scale_para)^shape_para, 1/shape_para))
 
     px = function(p){
       pc = (1-p)*S_t

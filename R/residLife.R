@@ -25,6 +25,8 @@
 #' @export
 #'
 #' @examples
+#' residLife(flexsurvreg, 6, .75, 'all')
+#' residLife(flexsurvreg, 3, type = 'median')
 residLife <- function(data, life, p=.5, type = 'mean') {
   if (data$dlist$name == 'gamma'){
     return(gamma.rl(data, life, p, type))
@@ -51,7 +53,3 @@ residLife <- function(data, life, p=.5, type = 'mean') {
     return('Invalid Distribution!')
   }
 }
-library(flexsurv)
-fsr = flexsurvreg(Surv(recyrs, censrec)~ group, data = bc, dist = 'weibull')
-residLife(fsr, 4)
-fsr$dlist$name

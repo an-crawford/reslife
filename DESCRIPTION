@@ -21,5 +21,6 @@ LazyData: true
 RoxygenNote: 7.2.3
 Imports: 
     pracma,
-    flexsurv
+    flexsurv,
+    zipfR
 URL: https://github.com/an-crawford/flexsurvExtension

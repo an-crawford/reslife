@@ -21,3 +21,7 @@ Residual life values
 \description{
 Calculate Residual Life Values
 }
+\examples{
+residLife(flexsurvreg, 6, .75, 'all')
+residLife(flexsurvreg, 3, type = 'median')
+}
