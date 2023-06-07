@@ -18,5 +18,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Andrew Crawford \email{atcrawford18@gmail.com}
 
+Authors:
+\itemize{
+  \item Zekai Wang \email{wangzekai1203@gmail.com}
+}
+
 }
 \keyword{internal}

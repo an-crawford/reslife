@@ -35,5 +35,3 @@ gamma.rl = function(fsroutput, x, p=.5, type = 'all'){
     return('invalid type')
   }
 }
-
-gamma.rl(fsr, 9, p = .7, type = 'all')
