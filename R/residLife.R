@@ -27,7 +27,8 @@
 #' @examples
 #' residLife(flexsurvreg, 6, .75, 'all')
 #' residLife(flexsurvreg, 3, type = 'median')
-residLife <- function(data, life, p=.5, type = 'mean') {
+residLife <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
+  #stopifnot(class(newdata)=='data.frame')
   if (data$dlist$name == 'gamma'){
     return(gamma.rl(data, life, p, type))
   }
@@ -53,3 +54,23 @@ residLife <- function(data, life, p=.5, type = 'mean') {
     return('Invalid Distribution!')
   }
 }
+
+
+library(flexsurv)
+fsr = flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "weibull")
+newdat = t(c(censrec = 0, group = 'Poor'))
+nd = as.data.frame(newdat)
+#nd$V3 = as.factor(nd$V3)
+predict(fsr, newdata = nd)
+
+
+nd
+newdat
+
+residLife(fsr, 4, newdata= newdat)
+class(nd)
+
+
+n = c(10, 20, 30)
+
+
