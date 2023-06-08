@@ -3,11 +3,9 @@
 ##Author: Andrew Crawford##
 ###########################
 
-gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = c()){
-  if (fsroutput$covdata$isfac == TRUE){
-    lvl = fsroutput$covdata$xlev$group
-    #return(newdata)
-    stopifnot(newdata %in% lvl)
+gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
+  if (length(newdata)!=0){
+    stopifnot(colnames(newdata) == fsroutput$covdata$covnames)
   }
   a = exp(fsroutput$coefficients[1])
   if (length(newdata) == 0){
@@ -24,9 +22,19 @@ gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = c()){
       lambda = 1/as.numeric(exp(fsroutput$coefficients[2]))
     }
     else{
+      X<-model.matrix( ~ ., data = newdata)
       s = fsroutput$coefficients
-      b = model.matrix(~0+ newdata)
-      lambda = 1/exp(as.matrix(b) %*% as.numeric(s[-1]))
+      sa = s[2]
+      sb = s[-c(1,2)]
+      sb = sb[colnames(X)]
+      sb = sb[!is.na(sb)]
+      sc = append(sa,sb)
+      if (length(sc) != ncol(X)){
+        print('Incorrect Level Entered')
+        error = 1
+        stopifnot(error = 0)
+      }
+      lambda = 1/exp(as.matrix(X) %*% as.numeric(sc))
     }
   }
   #lambda = 1/(exp(as.matrix(fsroutput$data$mml$rate) %*% as.numeric(fsroutput$coefficients[-1])))
@@ -53,10 +61,20 @@ gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = c()){
   }
 }
 
+group = c("Medium", 'Good', "Poor")
+age = c(43, 35, 39)
+newdata = data.frame(age)
 
+fitg <- flexsurvreg(formula = Surv(futime, fustat) ~ age, data = ovarian, dist = "gamma")
 fsr = flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "gamma")
-newdat = c(group = 'Good', 'Poor')
-#nd = as.data.frame(newdat)
-#nd$V3 = as.factor(nd$V3)
-gamma.rl(fsr, 4, type = 'mean', newdata = newdat)
+newbc <- bc
+newbc$age <- rnorm(dim(bc)[1], mean = 65-scale(newbc$recyrs, scale=FALSE),sd = 5)
+fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc,
+                    dist="gamma")
+
+
+gamma.rl(fitg, 4, type = 'mean', newdata = newdata)
 #predict(fsr, newdata = as.data.frame(newdat))
+
+fsr2
+
