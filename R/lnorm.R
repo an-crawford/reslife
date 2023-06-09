@@ -3,13 +3,45 @@
 ###########################
 
 
-lnorm.rl = function(fsroutput, x, p=.5, type = 'all'){
+lnorm.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
+  if (length(newdata)!=0){
+    if (length(newdata) == 1){
+      stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+    }
+    else{
+      names = fsroutput$covdata$covnames
+      newdata= newdata[,c(names)]
+      print(newdata)
+    }
+  }
   sigma = exp(fsroutput$coefficients[2])
-  if (fsroutput$ncovs == 0) {
-    mu = fsroutput$coefficients[1]
+  if (length(newdata) == 0){
+    if (fsroutput$ncovs == 0) {
+      mu = fsroutput$coefficients[1]
+    }
+    else{
+      mu = (as.matrix(fsroutput$data$mml$meanlog) %*% as.numeric(fsroutput$coefficients[-2]))
+    }
   }
   else{
-    mu = (as.matrix(fsroutput$data$mml$meanlog) %*% as.numeric(fsroutput$coefficients[-2]))
+    if (fsroutput$ncovs == 0) {
+      mu = fsroutput$coefficients[1]
+    }
+    else{
+      X<-model.matrix( ~ ., data = newdata)
+      s = fsroutput$coefficients
+      sa = s[1]
+      sb = s[-c(1,2)]
+      sb = sb[colnames(X)]
+      sb = sb[!is.na(sb)]
+      sc = append(sa,sb)
+      if (length(sc) != ncol(X)){
+        print('Incorrect Level Entered')
+        error = 1
+        stopifnot(error = 0)
+      }
+      mu = (as.matrix(X) %*% as.numeric(sc))
+    }
   }
   #mu <- exp(meanlog + (1/2)*sdlog^2)
   #sigma <- exp(meanlog + (1/2)*sdlog^2)*sqrt(exp(sdlog^2) - 1)

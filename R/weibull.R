@@ -28,21 +28,52 @@ library(flexsurv)
 
 ### Written by Zekai Wang ###
 
-weibull_mlr <- function(fsoutput,life, p=.5, type){
+weibull_mlr <- function(fsoutput,life, p=.5, type = 'all', newdata = data.frame()){
 
   if (fsoutput$dlist$name != "weibull.quiet") {
     print("wrong distribution")
   }
 
   else  {
-
+    if (length(newdata)!=0){
+      if (length(newdata) == 1){
+        stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+      }
+      else{
+        names = fsroutput$covdata$covnames
+        newdata= newdata[,c(names)]
+        print(newdata)
+      }
+    }
     para_vect = fsoutput$coefficients
     shape_para = exp(para_vect[1])
-    if (fsoutput$ncovs == 0){
-      scale_para = exp(para_vect[2])
+    if (length(newdata) == 0){
+      if (fsoutput$ncovs == 0){
+        scale_para = exp(para_vect[2])
+      }
+      else{
+        scale_para = exp(as.matrix(fsoutput$data$mml$scale) %*% as.numeric(para_vect[c(2:length(para_vect))]))
+      }
     }
     else{
-      scale_para = exp(as.matrix(fsoutput$data$mml$scale) %*% as.numeric(para_vect[c(2:length(para_vect))]))
+      if (fsoutput$ncovs == 0){
+        scale_para = exp(para_vect[2])
+      }
+      else{
+        X<-model.matrix( ~ ., data = newdata)
+        s = fsroutput$coefficients
+        sa = s[2]
+        sb = s[-c(1,2)]
+        sb = sb[colnames(X)]
+        sb = sb[!is.na(sb)]
+        sc = append(sa,sb)
+        if (length(sc) != ncol(X)){
+          print('Incorrect Level Entered')
+          error = 1
+          stopifnot(error = 0)
+        }
+        scale_para = exp(as.matrix(X) %*% as.numeric(sc))
+      }
     }
     S_t = exp(-((life/scale_para)^shape_para))
     mx = as.numeric((scale_para/shape_para)*exp((life/scale_para)^shape_para)*Vectorize(pracma::incgam)((life/scale_para)^shape_para, 1/shape_para))

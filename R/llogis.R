@@ -2,15 +2,47 @@
 ##Author: Andrew Crawford##
 ###########################
 
-llogis.rl = function(fsroutput, x, p=.5, type = 'all'){
+llogis.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
+  if (length(newdata)!=0){
+    if (length(newdata) == 1){
+      stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+    }
+    else{
+      names = fsroutput$covdata$covnames
+      newdata= newdata[,c(names)]
+      print(newdata)
+    }
+  }
   a = exp(fsroutput$coefficients[1])
-  if (fsroutput$ncovs == 0) {
-    lambda = as.numeric(exp(fsroutput$coefficients[2]))
+  if (length(newdata) == 0){
+    if (fsroutput$ncovs == 0) {
+      lambda = as.numeric(exp(fsroutput$coefficients[2]))
+    }
+    else{
+      s = fsr$coefficients
+      #s[2] = exp(s[2])
+      lambda = exp(as.matrix(fsroutput$data$mml$scale) %*% as.numeric(s[-1]))
+    }
   }
   else{
-    s = fsr$coefficients
-    #s[2] = exp(s[2])
-    lambda = exp(as.matrix(fsroutput$data$mml$scale) %*% as.numeric(s[-1]))
+    if (fsroutput$ncovs == 0) {
+      lambda = as.numeric(exp(fsroutput$coefficients[2]))
+    }
+    else{
+      X<-model.matrix( ~ ., data = newdata)
+      s = fsroutput$coefficients
+      sa = s[2]
+      sb = s[-c(1,2)]
+      sb = sb[colnames(X)]
+      sb = sb[!is.na(sb)]
+      sc = append(sa,sb)
+      if (length(sc) != ncol(X)){
+        print('Incorrect Level Entered')
+        error = 1
+        stopifnot(error = 0)
+      }
+      lambda = exp(as.matrix(X) %*% as.numeric(sc))
+    }
   }
   d = (x/lambda)^a
   sx = 1/(1+d)
