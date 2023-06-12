@@ -27,25 +27,31 @@
 #' @examples
 #' residLife(flexsurvreg, 6, .75, 'all')
 #' residLife(flexsurvreg, 3, type = 'median')
+source("R/gamma.R")
+source('R/gompertz.R')
+source('R/exponential.R')
+source('R/weibull.R')
+source('R/lnorm.R')
+source('R/llogis.R')
 residLife <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
   stopifnot(class(newdata)=='data.frame')
   if (data$dlist$name == 'gamma'){
-    return(gamma.rl(data, life, p, type))
+    return(gamma.rl(data, life, p, type, newdata))
   }
   if (data$dlist$name == 'gompertz'){
-    return(gompertz.rl(data, life, p, type))
+    return(gompertz.rl(data, life, p, type, newdata))
   }
   if (data$dlist$name == 'llogis'){
-    return(llogis.rl(data, life, p, type))
+    return(llogis.rl(data, life, p, type, newdata))
   }
   if (data$dlist$name == 'exp'){
-    return(exp.rl(data, life, p, type))
+    return(exp.rl(data, life, p, type, newdata))
   }
   if (data$dlist$name == 'lnorm'){
-    return(lnorm.rl(data, life, p, type))
+    return(lnorm.rl(data, life, p, type, newdata))
   }
   if (data$dlist$name == 'weibull.quiet'){
-    return(weibull_mlr(data, life, p, type))
+    return(weibull_mlr(data, life, p, type, newdata))
   }
 
 
@@ -57,20 +63,25 @@ residLife <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
 
 
 library(flexsurv)
-fsr = flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "weibull")
-newdat = t(c(censrec = 0, group = 'Poor'))
-nd = as.data.frame(newdat)
-#nd$V3 = as.factor(nd$V3)
-predict(fsr, newdata = nd)
+group = c("Medium", 'Good', "Poor")
+age = c(43, 35, 39)
+newdata = data.frame(group, age)
+newd = data.frame(group)
+fitg <- flexsurvreg(formula = Surv(futime, fustat) ~ age, data = ovarian, dist = "llogis")
+fsr = flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "llogis")
+fsr1 = flexsurvreg(formula = Surv(recyrs, censrec) ~ 1, data = bc,dist = "llogis")
+newbc <- bc
+newbc$age <- rnorm(dim(bc)[1], mean = 65-scale(newbc$recyrs, scale=FALSE),sd = 5)
+fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc,
+                    dist="gamma")
 
 
-nd
-newdat
-
-residLife(fsr, 4, newdata= newdat)
-class(nd)
-
-
-n = c(10, 20, 30)
-
+residLife(fsr, 4)
+residLife(fsr1, 4)
+residLife(fsr, 4,p = .6, type = 'all')
+residLife(fsr1, 4,p = .6, type = 'all')
+residLife(fsr, 4,p = .6, type = 'all', newdata= newdata) #errors because input data does not match flexsurv
+residLife(fsr, 4,p = .6, type = 'all', newdata= newd)
+residLife(fsr1, 4,p = .6, type = 'all', newdata= newd)
+residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata)
 

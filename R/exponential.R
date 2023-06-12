@@ -5,10 +5,10 @@
 exp.rl <- function(fsoutput,x, p=.5, type = 'all', newdata = data.frame()) {
   if (length(newdata)!=0){
     if (length(newdata) == 1){
-      stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+      stopifnot(fsoutput$covdata$covnames == colnames(newdata))
     }
     else{
-      names = fsroutput$covdata$covnames
+      names = fsoutput$covdata$covnames
       newdata= newdata[,c(names)]
       print(newdata)
     }
@@ -30,7 +30,7 @@ exp.rl <- function(fsoutput,x, p=.5, type = 'all', newdata = data.frame()) {
     }
     else{
       X<-model.matrix( ~ ., data = newdata)
-      s = fsroutput$coefficients
+      s = fsoutput$coefficients
       sa = s[1]
       sb = s[-1]
       sb = sb[colnames(X)]

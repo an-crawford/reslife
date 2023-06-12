@@ -37,10 +37,10 @@ weibull_mlr <- function(fsoutput,life, p=.5, type = 'all', newdata = data.frame(
   else  {
     if (length(newdata)!=0){
       if (length(newdata) == 1){
-        stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+        stopifnot(fsoutput$covdata$covnames == colnames(newdata))
       }
       else{
-        names = fsroutput$covdata$covnames
+        names = fsoutput$covdata$covnames
         newdata= newdata[,c(names)]
         print(newdata)
       }
@@ -61,7 +61,7 @@ weibull_mlr <- function(fsoutput,life, p=.5, type = 'all', newdata = data.frame(
       }
       else{
         X<-model.matrix( ~ ., data = newdata)
-        s = fsroutput$coefficients
+        s = fsoutput$coefficients
         sa = s[2]
         sb = s[-c(1,2)]
         sb = sb[colnames(X)]
