@@ -27,13 +27,14 @@
 #' @examples
 #' residLife(flexsurvreg, 6, .75, 'all')
 #' residLife(flexsurvreg, 3, type = 'median')
-source("R/gamma.R")
-source('R/gompertz.R')
-source('R/exponential.R')
-source('R/weibull.R')
-source('R/lnorm.R')
-source('R/llogis.R')
 residLife <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
+  source("R/gamma.R")
+  source('R/gompertz.R')
+  source('R/exponential.R')
+  source('R/weibull.R')
+  source('R/lnorm.R')
+  source('R/llogis.R')
+  source('R/gengamma.orig.R')
   stopifnot(class(newdata)=='data.frame')
   if (data$dlist$name == 'gamma'){
     return(gamma.rl(data, life, p, type, newdata))
@@ -53,6 +54,9 @@ residLife <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
   if (data$dlist$name == 'weibull.quiet'){
     return(weibull_mlr(data, life, p, type, newdata))
   }
+  if (data$dlist$name == 'gengamma.orig'){
+    return(gengamma.orig(data, life, p, type, newdata))
+  }
 
 
   #add in other if statements
@@ -67,14 +71,12 @@ group = c("Medium", 'Good', "Poor")
 age = c(43, 35, 39)
 newdata = data.frame(group, age)
 newd = data.frame(group)
-fitg <- flexsurvreg(formula = Surv(futime, fustat) ~ age, data = ovarian, dist = "llogis")
-fsr = flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "llogis")
-fsr1 = flexsurvreg(formula = Surv(recyrs, censrec) ~ 1, data = bc,dist = "llogis")
+fitg <- flexsurvreg(formula = Surv(futime, fustat) ~ age, data = ovarian, dist = "weibull")
+fsr = flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "weibull")
+fsr1 = flexsurvreg(formula = Surv(recyrs, censrec) ~ 1, data = bc,dist = "weibull")
 newbc <- bc
 newbc$age <- rnorm(dim(bc)[1], mean = 65-scale(newbc$recyrs, scale=FALSE),sd = 5)
-fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc,
-                    dist="gamma")
-
+fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc, dist = 'weibull')
 
 residLife(fsr, 4)
 residLife(fsr1, 4)
