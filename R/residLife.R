@@ -19,7 +19,10 @@
 #' @param data Name of a 'flexsurvreg' object from which data is extracted
 #' @param life Value of the 'given' used to calculate residual life
 #' @param p percentile, default is .5
-#' @param type can be 'mean', 'median', 'percentile', or 'all'. Default is 'mean'
+#' @param type can be 'mean', 'median', 'percentile', or 'all'. Default is
+#' 'mean'
+#' @param newdata a data frame containing new data values to calculate residual
+#' life for. Default is a blank data frame.
 #'
 #' @return Residual life values
 #' @export
@@ -28,13 +31,6 @@
 #' residLife(flexsurvreg, 6, .75, 'all')
 #' residLife(flexsurvreg, 3, type = 'median')
 residLife <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
-  source("R/gamma.R")
-  source('R/gompertz.R')
-  source('R/exponential.R')
-  source('R/weibull.R')
-  source('R/lnorm.R')
-  source('R/llogis.R')
-  source('R/gengamma.orig.R')
   stopifnot(class(newdata)=='data.frame')
   if (data$dlist$name == 'gamma'){
     return(gamma.rl(data, life, p, type, newdata))
@@ -64,6 +60,11 @@ residLife <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
     return('Invalid Distribution!')
   }
 }
+
+
+
+devtools::load_all()
+
 
 
 library(flexsurv)

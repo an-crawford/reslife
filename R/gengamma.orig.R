@@ -4,7 +4,6 @@
 
 ####Written by Zekai Wang ####
 
-library('flexsurv')
 
 upper_incomplete_gamma <- function(x,a) {
   #return (incgam(x,a))

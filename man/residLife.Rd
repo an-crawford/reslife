@@ -4,7 +4,7 @@
 \alias{residLife}
 \title{Calculate Residual Life Values}
 \usage{
-residLife(data, life, p = 0.5, type = "mean")
+residLife(data, life, p = 0.5, type = "mean", newdata = data.frame())
 }
 \arguments{
 \item{data}{Name of a 'flexsurvreg' object from which data is extracted}
@@ -13,7 +13,11 @@ residLife(data, life, p = 0.5, type = "mean")
 
 \item{p}{percentile, default is .5}
 
-\item{type}{can be 'mean', 'median', 'percentile', or 'all'. Default is 'mean'}
+\item{type}{can be 'mean', 'median', 'percentile', or 'all'. Default is
+'mean'}
+
+\item{newdata}{a data frame containing new data values to calculate residual
+life for. Default is a blank data frame.}
 }
 \value{
 Residual life values
