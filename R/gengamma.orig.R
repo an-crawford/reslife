@@ -20,7 +20,7 @@ gengamma.orig = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame(
     else{
       names = fsroutput$covdata$covnames
       newdata= newdata[,c(names)]
-      print(newdata)
+      #print(newdata)
     }
   }
   b = as.numeric(exp(fsroutput$coefficients[1]))
@@ -54,9 +54,9 @@ gengamma.orig = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame(
       a = exp(as.matrix(X) %*% as.numeric(sc))
     }
   }
-  
+
   sx = pgengamma.orig(x, shape = b, scale = a, k = k, lower.tail = FALSE)
-  mx = a * upper_incomplete_gamma((x/a)^b, k + 1/b)/upper_incomplete_gamma((x/a)^b, k) - x
+  mx = as.numeric(a * upper_incomplete_gamma((x/a)^b, k + 1/b)/upper_incomplete_gamma((x/a)^b, k) - x)
   px = function(p){
     pc = (1-p)*sx
     px = as.numeric(qgengamma.orig(pc, shape = b, scale = a, k = k, lower.tail = FALSE) - x)
