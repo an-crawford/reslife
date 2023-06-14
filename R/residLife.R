@@ -66,17 +66,18 @@ residLife <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
 
 
 
+
 devtools::load_all()
 
-
+mean.graph(12, distribution= "weibull", parameters = c(2,3))
 
 library(flexsurv)
 group = c("Medium", 'Good', "Good")
 age = c(43, 35, 39)
 newdata = data.frame(age, group)
 newd = data.frame(group)
-fitg <- flexsurvreg(formula = Surv(futime, fustat) ~ age, data = ovarian, dist = "weibull")
-fsr = flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "weibull")
+fitg <- flexsurvreg(formula = Surv(futime, fustat) ~ age, data = ovarian, dist = "gamma")
+fsr = flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "gamma")
 fsr1 = flexsurvreg(formula = Surv(recyrs, censrec) ~ 1, data = bc,dist = "weibull")
 newbc <- bc
 newbc$age <- rnorm(dim(bc)[1], mean = 65-scale(newbc$recyrs, scale=FALSE),sd = 5)
@@ -93,7 +94,7 @@ residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata)
 
 #show tmrw: line 18:
 fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc, dist = 'weibull')
-unique(residLife(fsr2, 4))
+residLife(fsr2, 4)
 unique(residLife(fsr2, 4))
 residLife(fsr2, 4, type = 'median')
 unique(residLife(fsr2, 4, type = 'median'))
@@ -130,9 +131,10 @@ fsr0$coefficients
 
 
 
-fs1 <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc,dist = "genGamma.orig")
 
-r <- gengamma.orig(fs1, 1, p=.5, type = 'mean', newdata = data.frame())
+fs1 <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc,dist = "gengamma.orig")
+
+r <- residLife(fs1, 1, p=.5, type = 'mean', newdata = data.frame())
 r
 
 b <- exp(as.numeric(fs1$coefficients[1]))
@@ -144,5 +146,33 @@ f <- function(x) {
   return(pgengamma.orig(x, shape = b, scale = a, k = k, lower.tail = FALSE))
 }
 
-mx_interal <- integrate(f, x, Inf)$value/pgengamma.orig(x, shape = b, scale = a, k = k, lower.tail = FALSE)
+mx_interal <- integrate(f, 1, Inf)$value/pgengamma.orig(1, shape = b, scale = a, k = k, lower.tail = FALSE)
 mx_interal # same r
+
+
+fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc, dist = 'weibull')
+residLife(fsr2, 4)
+#unique(residLife(fsr2, 4))
+residLife(fsr2, 4, type = 'median')
+#unique(residLife(fsr2, 4, type = 'median'))
+residLife(fsr2, 4, type = 'all')
+group = c("Medium", 'Good', "Good")
+age = c(43, 35, 39)
+newdata = data.frame(age, group)
+residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata)
+newdata = data.frame(group, age)
+residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata)
+extra = c(100, 100, 100)
+newdata2 = data.frame(age, group, extra)
+residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata2)
+newdata3 = data.frame(group)
+residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata3)
+
+
+
+
+mean.graph(85, distribution= "weibull", parameters = c(.7,3), showmean = TRUE)
+
+
+
+

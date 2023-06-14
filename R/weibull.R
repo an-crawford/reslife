@@ -42,7 +42,6 @@ weibull_mlr <- function(fsoutput,life, p=.5, type = 'all', newdata = data.frame(
       else{
         names = fsoutput$covdata$covnames
         newdata= newdata[,c(names)]
-        #print(newdata)
       }
     }
     para_vect = fsoutput$coefficients
