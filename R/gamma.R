@@ -3,44 +3,57 @@
 ##Author: Andrew Crawford##
 ###########################
 
-gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
-  if (length(newdata)!=0){
-    if (length(newdata) == 1){
-      stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame(), params = c()){
+  if (length(params) > 0){
+    if (length(params)!=3){
+      print('incorrect number of parameters entered')
+      error = 1
+      stopifnot(error = 0)
     }
     else{
-      names = fsroutput$covdata$covnames
-      newdata= newdata[,c(names)]
-    }
-  }
-  a = exp(fsroutput$coefficients[1])
-  if (length(newdata) == 0){
-    if (fsroutput$ncovs == 0) {
-      lambda = 1/as.numeric(exp(fsroutput$coefficients[2]))
-    }
-    else{
-      s = fsroutput$coefficients
-      lambda = 1/exp(as.matrix(fsroutput$data$mml$rate) %*% as.numeric(s[-1]))
+
     }
   }
   else{
-    if (fsroutput$ncovs == 0) {
-      lambda = 1/as.numeric(exp(fsroutput$coefficients[2]))
+
+    if (length(newdata)!=0){
+      if (length(newdata) == 1){
+        stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+      }
+      else{
+        names = fsroutput$covdata$covnames
+        newdata= newdata[,c(names)]
+      }
+    }
+    a = exp(fsroutput$coefficients[1])
+    if (length(newdata) == 0){
+      if (fsroutput$ncovs == 0) {
+        lambda = 1/as.numeric(exp(fsroutput$coefficients[2]))
+      }
+      else{
+        s = fsroutput$coefficients
+        lambda = 1/exp(as.matrix(fsroutput$data$mml$rate) %*% as.numeric(s[-1]))
+      }
     }
     else{
-      X<-model.matrix( ~ ., data = newdata)
-      s = fsroutput$coefficients
-      sa = s[2]
-      sb = s[-c(1,2)]
-      sb = sb[colnames(X)]
-      sb = sb[!is.na(sb)]
-      sc = append(sa,sb)
-      if (length(sc) != ncol(X)){
-        print('Incorrect Level Entered')
-        error = 1
-        stopifnot(error = 0)
+      if (fsroutput$ncovs == 0) {
+        lambda = 1/as.numeric(exp(fsroutput$coefficients[2]))
       }
-      lambda = 1/exp(as.matrix(X) %*% as.numeric(sc))
+      else{
+        X<-model.matrix( ~ ., data = newdata)
+        s = fsroutput$coefficients
+        sa = s[2]
+        sb = s[-c(1,2)]
+        sb = sb[colnames(X)]
+        sb = sb[!is.na(sb)]
+        sc = append(sa,sb)
+        if (length(sc) != ncol(X)){
+          print('Incorrect Level Entered')
+          error = 1
+          stopifnot(error = 0)
+        }
+        lambda = 1/exp(as.matrix(X) %*% as.numeric(sc))
+      }
     }
   }
   #lambda = 1/(exp(as.matrix(fsroutput$data$mml$rate) %*% as.numeric(fsroutput$coefficients[-1])))
@@ -51,19 +64,22 @@ gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
     px = as.numeric(qgamma(pc, shape = a, scale = lambda, lower.tail = FALSE) - x)
   }
   if (type=='mean'){
-    return(list('mean'= mx))
+    return(c(mx))
   }
   if (type== 'median'){
-    return(list('median'= px(.5)))
+    return(c(px(.5)))
   }
   if (type == 'percentile'){
-    return(list('percentile'= px(p)))
+    return(c(px(p)))
   }
   if (type == 'all'){
-    return(list("mean" = mx, 'median' = px(.5), 'percentile' = px(p)))
+    return(data.frame(mean = mx, median = px(.5), percentile = px(p)))
   }
   else{
     return('invalid type')
   }
 }
 
+params = c(1, 2, 'weibull')
+length(params)
+params[3]

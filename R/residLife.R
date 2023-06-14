@@ -63,14 +63,17 @@ residLife <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
 
 
 
+
+
+
 devtools::load_all()
 
 
 
 library(flexsurv)
-group = c("Medium", 'Good', "Poor")
+group = c("Medium", 'Good', "Good")
 age = c(43, 35, 39)
-newdata = data.frame(group, age)
+newdata = data.frame(age, group)
 newd = data.frame(group)
 fitg <- flexsurvreg(formula = Surv(futime, fustat) ~ age, data = ovarian, dist = "weibull")
 fsr = flexsurvreg(formula = Surv(recyrs, censrec) ~ group, data = bc,dist = "weibull")
@@ -79,12 +82,67 @@ newbc <- bc
 newbc$age <- rnorm(dim(bc)[1], mean = 65-scale(newbc$recyrs, scale=FALSE),sd = 5)
 fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc, dist = 'weibull')
 
-residLife(fsr, 4)
+residLife(fsr, 4, type = 'all')
 residLife(fsr1, 4)
 residLife(fsr, 4,p = .6, type = 'all')
 residLife(fsr1, 4,p = .6, type = 'all')
-residLife(fsr, 4,p = .6, type = 'all', newdata= newdata) #errors because input data does not match flexsurv
+residLife(fsr, 4,p = .6, type = 'mean', newdata= newdata) #errors because input data does not match flexsurv
 residLife(fsr, 4,p = .6, type = 'all', newdata= newd)
 residLife(fsr1, 4,p = .6, type = 'all', newdata= newd)
 residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata)
 
+#show tmrw: line 18:
+fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc, dist = 'weibull')
+unique(residLife(fsr2, 4))
+unique(residLife(fsr2, 4))
+residLife(fsr2, 4, type = 'median')
+unique(residLife(fsr2, 4, type = 'median'))
+unique(residLife(fsr2, 4, type = 'all'))
+group = c("Medium", 'Good', "Good")
+age = c(43, 35, 39)
+newdata = data.frame(age, group)
+residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata)
+extra = c(100, 100, 100)
+newdata2 = data.frame(age, group, extra)
+residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata2)
+
+fsr0 =  flexsurvreg(Surv(recyrs, censrec) ~ 1, data=newbc, dist = 'weibull')
+residLife(fsr0, 4)
+#numerical integration:...
+unique(residLife(fsr0, 4, type = 'all'))
+
+
+#example 2: change the distribution
+
+
+
+
+
+
+
+MRL=rep(0,100)
+for (i in 0:99) {
+  MRL[i+1] = residLife(fsr0, i);
+}
+MRL
+plot(c(0:99), MRL)
+fsr0$coefficients
+
+
+
+fs1 <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc,dist = "genGamma.orig")
+
+r <- gengamma.orig(fs1, 1, p=.5, type = 'mean', newdata = data.frame())
+r
+
+b <- exp(as.numeric(fs1$coefficients[1]))
+a <- exp(as.numeric(fs1$coefficients[2]))
+k <- exp(as.numeric(fs1$coefficients[3]))
+
+# numerical integration
+f <- function(x) {
+  return(pgengamma.orig(x, shape = b, scale = a, k = k, lower.tail = FALSE))
+}
+
+mx_interal <- integrate(f, x, Inf)$value/pgengamma.orig(x, shape = b, scale = a, k = k, lower.tail = FALSE)
+mx_interal # same r

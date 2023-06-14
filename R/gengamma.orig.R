@@ -61,16 +61,16 @@ gengamma.orig = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame(
     px = as.numeric(qgengamma.orig(pc, shape = b, scale = a, k = k, lower.tail = FALSE) - x)
   }
   if (type=='mean'){
-    return(list('mean'= mx))
+    return(c(mx))
   }
   if (type== 'median'){
-    return(list('median'= px(.5)))
+    return(c(px(.5)))
   }
   if (type == 'percentile'){
-    return(list('percentile'= px(p)))
+    return(c(px(p)))
   }
   if (type == 'all'){
-    return(list("mean" = mx, 'median' = px(.5), 'percentile' = px(p)))
+    return(data.frame(mean = mx, median = px(.5), percentile = px(p)))
   }
   else{
     return('invalid type')
