@@ -1,0 +1,115 @@
+---
+title: "'mrlife' Package Demo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+## Load in the Package
+```{r setup}
+#library(flexsurvExtension)
+```
+## Demonstration of the 'residLife' function
+
+```{r}
+fs1 <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc,dist = "gengamma.orig")
+r <- residLife(fs1, 1, type = 'mean')
+r
+```
+We run a flexsurvreg with a single covariate for the 'gengamma.orig'
+distribution. We then run the residLife function, using the flexsurvreg object. 
+We have a life of 1 and specify that we only want the mean. 
+
+We can verify the accuracy of our derivation using the integrate funcion. 
+```{r}
+
+b <- exp(as.numeric(fs1$coefficients[1]))
+a <- exp(as.numeric(fs1$coefficients[2]))
+k <- exp(as.numeric(fs1$coefficients[3]))
+
+# numerical integration
+f <- function(x) {
+  return(pgengamma.orig(x, shape = b, scale = a, k = k, lower.tail = FALSE))
+}
+
+mx_interal <- integrate(f, 1, Inf)$value/pgengamma.orig(1, shape = b, scale = a, k = k, lower.tail = FALSE)
+mx_interal
+```
+
+As you can see, the mean values are the same. 
+
+### Demonstration with multiple covariates
+
+We will use the 'bc' dataset contained within flexsurv with an added covariate
+'age'. 
+```{r}
+data(bc)
+newbc <- bc
+newbc$age <- rnorm(dim(bc)[1], mean = 65-scale(newbc$recyrs, scale=FALSE),sd = 5)
+```
+
+Generating a flexsurvreg object:
+```{r}
+fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc, dist = 'weibull')
+```
+
+We can now use the residLife function to generate residual life values. 
+```{r}
+residLife(fsr2, 4)
+```
+If we want to look at the median, we can specify that.
+```{r}
+residLife(fsr2, 4, type = 'median')
+```
+We can look at all 3 types now (mean, median, and percentile)
+```{r}
+residLife(fsr2, 4, type = 'all')
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,17 @@
+#' Plotting the Mean Residual Life
+#'
+#' @param max Maximum value for which you want to see the MRL for
+#' @param distribution name of the distribution
+#' @param parameters parameters of the survival function. Needs to be inputted
+#' in order as a vector. For gamma distribution, the parameters are shape/scale.
+#' @param showmean Toggle whether running the function returns the MRL values.
+#' Default is set to FALSE.
+#'
+#' @return A plot showing MRL for a sequence of life values
+#' @export
+#'
+#' @examples mean.graph(60, 'weibull', c(1.2, 3))
+#' mean.graph(35, 'gamma', c(1.2, 1.7), showmean =TRUE)
 mean.graph = function(max, distribution, parameters, showmean = FALSE){
   if (distribution == 'weibull'){
     life = seq(0, max)

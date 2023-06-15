@@ -24,3 +24,7 @@ Imports:
     flexsurv,
     zipfR
 URL: https://github.com/an-crawford/flexsurvExtension
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
