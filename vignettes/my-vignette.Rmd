@@ -17,11 +17,13 @@ knitr::opts_chunk$set(
 ```{r setup}
 #library(flexsurvExtension)
 ```
-## Demonstration of the 'residLife' function
-
+## Demonstration of the 'reslife.fsr' function
+This function exclusively uses flexsurvreg objects as the source of the data. We will show 
+how to use the function below. First, we'll start off with a simple example and show how the mean 
+produced is equal to the integration. 
 ```{r}
 fs1 <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc,dist = "gengamma.orig")
-r <- residLife(fs1, 1, type = 'mean')
+r <- reslife.fsr(fs1, 1, type = 'mean')
 r
 ```
 We run a flexsurvreg with a single covariate for the 'gengamma.orig'
@@ -48,6 +50,7 @@ As you can see, the mean values are the same.
 
 ### Demonstration with multiple covariates
 
+What if the flexsurvreg object has multiple covariates? We will see this below. 
 We will use the 'bc' dataset contained within flexsurv with an added covariate
 'age'. 
 ```{r}
@@ -61,43 +64,95 @@ Generating a flexsurvreg object:
 fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc, dist = 'weibull')
 ```
 
-We can now use the residLife function to generate residual life values. 
+We can now use the residLife function to generate residual life values. There are 686 values,
+since the length of the input is 686. 
+
 ```{r}
-residLife(fsr2, 4)
+reslife.fsr(fsr2, 4)
 ```
 If we want to look at the median, we can specify that.
-```{r}
-residLife(fsr2, 4, type = 'median')
-```
-We can look at all 3 types now (mean, median, and percentile)
-```{r}
-residLife(fsr2, 4, type = 'all')
-```
 
 ```{r}
-
+reslife.fsr(fsr2, 4, type = 'median')
 ```
+We can look at all 3 types now (mean, median, and percentile).
 
 ```{r}
-
+reslife.fsr(fsr2, 4, type = 'all')
 ```
+Notice how when 'all' is used, the output is a dataframe with the name of each value 
+as the column names. 
+
+But what if we want to supply our own data and make predictions? Since the flexsurv regression
+object generates parameters, we can add our own data points and get the residual life values for each. 
+
+Let's start by generating some data. This data has the same two levels as fsr2 above (group, age)
+```{r}
+group = c("Medium", 'Good', "Poor")
+age = c(43, 35, 39)
+newdata = data.frame(age, group)
+```
+
+We run that through the reslife.fsr function and get a 3 row data frame
 
 ```{r}
-
+reslife.fsr(fsr2, 4,p = .6, type = 'all', newdata= newdata)
 ```
+
+Now we can show off some features of the function, specifically how it handles 
+different input data. 
+
+Lets change the order of the variables in the input data and rerun. It will show the exact same 
+results as above. 
+```{r}
+newdata = data.frame(group, age)
+reslife.fsr(fsr2, 4,p = .6, type = 'all', newdata= newdata)
+```
+
+This is a handy feature of the function that can enhance the user experience. Another perk of this is the 
+ability to handle data with extra columns. Let's show that feature below. 
 
 ```{r}
-
+extra = c(100, 100, 100)
+newdata2 = data.frame(age, group, extra)
+reslife.fsr(fsr2, 4,p = .6, type = 'all', newdata= newdata2)
 ```
+
+The extra column 'extra' is ignored by the function. 
+
+Are there scenarios where the package would return an error? Yes, in fact, there are a few. 
+
+The first is if not enough data is provided, which is shown below. 
+```{r}
+newdata3 = data.frame(group)
+residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata3)
+```
+
+Since only 'group' is provided, predictions cannot be generated. The function needs values for 
+'age' in order to make predictions. 
+
+Another scenario could happen with factor data. The levels for 'group' are 'Good', 'Medium',
+and 'Poor'. But what if a level was inputted that isn't one of those three? Let's see.
 
 ```{r}
-
+group = c("Medium", 'Good', "Terrible")
+newdata = data.frame(age, group)
+residLife(fsr2, 4,p = .6, type = 'all', newdata= newdata)
 ```
 
-```{r}
+Since 'Terrible' is not a valid level, the function errors and returns a message notifying the user of
+this error. 
 
-```
+That is an overview of how to use the flexsurvreg-dependent function. Next, we will show how to get 
+residual life values by inputing your own parameters. 
 
+## Demonstration of the 'reslife' function
+
+This function works similarly to the 'reslife.fsr' function, except it doesn't rely on a flexsurvreg input. 
+Instead, the user inputs the name of the distibution and the parameters. The distribution must be one contained 
+within flexsurv (omitting F-dist), and the names of the parameters must match those specified for each distribution. 
+
+We will show a demonstration below. 
 ```{r}
 
 ```

@@ -3,19 +3,7 @@
 ##Author: Andrew Crawford##
 ###########################
 
-gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame(), params = c()){
-  if (length(params) > 0){
-    if (length(params)!=3){
-      print('incorrect number of parameters entered')
-      error = 1
-      stopifnot(error = 0)
-    }
-    else{
-
-    }
-  }
-  else{
-
+gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
     if (length(newdata)!=0){
       if (length(newdata) == 1){
         stopifnot(fsroutput$covdata$covnames == colnames(newdata))
@@ -55,7 +43,7 @@ gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame(), pa
         lambda = 1/exp(as.matrix(X) %*% as.numeric(sc))
       }
     }
-  }
+
   #lambda = 1/(exp(as.matrix(fsroutput$data$mml$rate) %*% as.numeric(fsroutput$coefficients[-1])))
   sx = pgamma(x, shape = a, scale = lambda, lower.tail = FALSE)
   mx = as.numeric(((x^a)*exp(-x/lambda))/((lambda^(a-1))*gamma(a)*sx)+(lambda*a) - x)
@@ -80,6 +68,3 @@ gamma.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame(), pa
   }
 }
 
-params = c(1, 2, 'weibull')
-length(params)
-params[3]
