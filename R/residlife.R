@@ -12,9 +12,9 @@
 #' @return The residual life for a specified sequence of values
 #' @export
 #'
-#' @examples mean.graph(60, 'weibull', c(1.2, 3))
-#' mean.graph(35, 'gamma', c(1.2, 1.7), showmean =TRUE)
-reslife = function(min, max, distribution, parameters, p = .5, type = 'mean'){
+#' @examples residlife(0, 60, 'weibull', c(shape = 1.2, scale = 3))
+#' residlife(15, 35, 'gamma', c(shape = 1.2, rate =  1.7), p = .25, type ='all')
+residlife = function(min, max, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'weibull'){
     life = seq(min, max)
     if (names(parameters)[1]!= "shape" | names(parameters)[2]!= "scale"){
@@ -172,6 +172,5 @@ reslife = function(min, max, distribution, parameters, p = .5, type = 'mean'){
   }
 
 }
-1/.12
-reslife(1, 40, 'weibull', c(shape= .9, scale = 2.2), p =.7, type = 'all')
+
 
