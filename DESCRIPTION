@@ -1,8 +1,8 @@
-Package: flexsurvExtension
+Package: reslife
 Type: Package
 Title: Calculate Residual Life Values for Different Distributions
 Version: 0.1.0
-Date: 
+Date: June 20, 2023
 Authors@R: c(person("Andrew", "Crawford", 
     email = 'atcrawford18@gmail.com',
     role = c('cre', 'aut')), 
@@ -10,12 +10,13 @@ Authors@R: c(person("Andrew", "Crawford",
     email='wangzekai1203@gmail.com',
     role = c('aut'))
       )
-Description: A function for calculating mean, median, and/or percentile 
-    residual life using the outputs of the flexsurv package. Input the 
-    'flexsurvreg' object, the given 'life' value, the percentile, and
-    the type of residual life, and the function will return your desired 
-    values. 
-License: What license is it under?
+Description: A pair of functions for calculating mean, median, and/or percentile 
+    residual life using the outputs of either the flexsurv package or parameters
+    provided by the user. Input information about the distribution, the given
+    'life' value, the percentile, and the type of residual life, 
+    and the function will return your desired values. For the flexsurv option,
+    the function allows the user to input their own data for making predicitons.
+License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
@@ -23,7 +24,7 @@ Imports:
     pracma,
     flexsurv,
     zipfR
-URL: https://github.com/an-crawford/flexsurvExtension
+URL: https://github.com/an-crawford/reslife
 Suggests: 
     knitr,
     rmarkdown
