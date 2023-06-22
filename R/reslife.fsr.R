@@ -53,6 +53,9 @@ reslife.fsr <- function(data, life, p=.5, type = 'mean', newdata = data.frame())
   if (data$dlist$name == 'gengamma.orig'){
     return(gengamma.orig(data, life, p, type, newdata))
   }
+  if (data$dlist$name == 'gengamma'){
+    return(gengamma(data, life, p, type, newdata))
+  }
 
 
   #add in other if statements

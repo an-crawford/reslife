@@ -98,6 +98,33 @@ residlife = function(min, max, distribution, parameters, p = .5, type = 'mean'){
       }
     }
   }
+  if (distribution == 'gengamma'){
+    x = seq(min, max)
+    upper_incomplete_gamma <- function(x,a) {
+      return (gamma(a) * pgamma(x, a, 1, lower = FALSE))
+    }
+    if (names(parameters)[1]!= "mu" | names(parameters)[2]!= "sigma" | names(parameters)[3]!= 'Q'){
+      print("incorrect parameters entered. Parameters for gengamma are mu, sigma, and Q")
+      error = 1
+      stopifnot(error = 0)
+    }
+    else{
+      mu = parameters[1]
+      sigma = parameters[2]
+      Q = parameters[3]
+      k = 1 / (Q^2)
+      b = abs(Q)/(sigma)
+      a = exp(mu - (log(Q^(-2))*sigma)/(abs(Q)))
+      sx = pgengamma(x,mu = mu, sigma = sigma, Q = Q, lower.tail = FALSE)
+      mx = as.numeric(a * upper_incomplete_gamma((x/a)^b, k + 1/b)/upper_incomplete_gamma((x/a)^b, k) - x)
+
+      px = function(p){
+        pc = (1-p)*sx
+        px = as.numeric(qgengamma(pc,mu = mu, sigma = sigma,Q = Q, lower.tail = FALSE) - x)
+      }
+
+    }
+  }
   if (distribution == 'exponential'){
     x = seq(min, max)
     if (names(parameters)[1]!= 'rate'){
