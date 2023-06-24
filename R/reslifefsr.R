@@ -28,9 +28,9 @@
 #' @export
 #'
 #' @examples
-#' reslife.fsr(flexsurvreg, 6, .75, 'all')
-#' reslife.fsr(flexsurvreg, 3, type = 'median', newdata = df_new)
-reslife.fsr <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
+#' reslifefsr(flexsurvreg, 6, .75, 'all')
+#' reslifefsr(flexsurvreg, 3, type = 'median', newdata = df_new)
+reslifefsr <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
   stopifnot(class(newdata)=='data.frame')
   if (data$dlist$name == 'gamma'){
     return(gamma.rl(data, life, p, type, newdata))

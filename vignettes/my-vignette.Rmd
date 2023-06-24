@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(reslife)
 ```
-## Demonstration of the 'reslife.fsr' function
+## Demonstration of the 'reslifefsr' function
 This function exclusively uses flexsurvreg objects as the source of the data. We will show 
 how to use the function below. First, we'll start off with a simple example and show how the mean 
 produced is equal to the integration. 
@@ -30,7 +30,7 @@ We have a life of 1 and specify that we only want the mean.
 ```{r}
 library(flexsurv)
 fs1 <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc,dist = "gengamma.orig")
-r <- reslife.fsr(fs1, 1, type = 'mean')
+r <- reslifefsr(data = fs1, life = 1, type = 'mean')
 r
 ```
  
@@ -73,17 +73,17 @@ We can now use the residLife function to generate residual life values. There ar
 since the length of the input is 686. We are only going to show 10, in order to save space. 
 
 ```{r}
-head(reslife.fsr(fsr2, 4), 10)
+head(reslifefsr(data = fsr2, life= 4), 10)
 ```
 If we want to look at the median, we can specify that.
 
 ```{r}
-head(reslife.fsr(fsr2, 4, type = 'median'),10)
+head(reslifefsr(data = fsr2,life= 4, type = 'median'),10)
 ```
 We can look at all 3 types now (mean, median, and percentile).
 
 ```{r}
-head(reslife.fsr(fsr2, 4, type = 'all'),10)
+head(reslifefsr(data = fsr2, life= 4, p = .8, type = 'all'),10)
 ```
 Notice how when 'all' is used, the output is a dataframe with the name of each value 
 as the column names. 
@@ -103,7 +103,7 @@ newdata = data.frame(age, group)
 We run that through the reslife.fsr function and get a 3 row data frame
 
 ```{r}
-reslife.fsr(fsr2, 4,p = .6, type = 'all', newdata= newdata)
+reslifefsr(data = fsr2,life= 4,p = .6, type = 'all', newdata= newdata)
 ```
 
 Now we can show off some features of the function, specifically how it handles 
@@ -113,16 +113,16 @@ Lets change the order of the variables in the input data and rerun. It will show
 results as above. 
 ```{r}
 newdata = data.frame(group, age)
-reslife.fsr(fsr2, 4,p = .6, type = 'all', newdata= newdata)
+reslifefsr(data = fsr2,life= 4,p = .6, type = 'all', newdata= newdata)
 ```
 
-This is a handy feature of the function that can enhance the user experience. Another perk of this is the 
+This is a handy feature of the function that can enhance the user experience. Another feature of this is the 
 ability to handle data with extra columns. Let's show that feature below. 
 
 ```{r}
 extra = c(100, 100, 100)
 newdata2 = data.frame(age, group, extra)
-reslife.fsr(fsr2, 4,p = .6, type = 'all', newdata= newdata2)
+reslifefsr(data = fsr2,life= 4,p = .6, type = 'all', newdata= newdata2)
 ```
 
 The extra column 'extra' is ignored by the function. 
@@ -132,7 +132,7 @@ Are there scenarios where the package would return an error? Yes, in fact, there
 The first is if not enough data is provided, which is shown below. 
 ```{r}
 newdata3 = data.frame(group)
-reslife.fsr(fsr2, 4,p = .6, type = 'all', newdata= newdata3)
+reslifefsr(data = fsr2, life = 4,p = .6, type = 'all', newdata= newdata3)
 ```
 
 Since only 'group' is provided, predictions cannot be generated. The function needs values for 
@@ -144,7 +144,7 @@ and 'Poor'. But what if a level was inputted that isn't one of those three? Let'
 ```{r}
 group = c("Medium", 'Good', "Terrible")
 newdata = data.frame(age, group)
-reslife.fsr(fsr2, 4,p = .6, type = 'all', newdata= newdata)
+reslifefsr(data = fsr2,life= 4,p = .6, type = 'all', newdata= newdata)
 ```
 
 Since 'Terrible' is not a valid level, the function errors and returns a message notifying the user of
@@ -165,13 +165,13 @@ The inputs for the function are simple. The minimum and maximum values for the a
 1 and 20. The next argument is the distribution name, 'weibull'. The last argument are the parameters, 
 inputted as a vector. The names, shape and scale, are specified in the vector. 
 ```{r}
-residlife(1, 20, 'weibull', c(shape= .9, scale = 2.2))
+residlife(min = 1,max =  20, distribution = 'weibull', parameters= c(shape= .9, scale = 2.2))
 ```
 
 What if the parameter names are incorrect? The function will return an error. 
 
 ```{r}
-residlife(1, 20, 'weibull', c(shape= .9, not_scale = 2.2))
+residlife(min = 1, max= 20, distribution= 'weibull', parameters= c(shape= .9, not_scale = 2.2))
 ```
 
 For distributions where there are different parameterizations, the function can be flexible.
@@ -180,18 +180,18 @@ For example, gamma has both shape/rate and shape/scale parameterizations. he fun
 both, as long as the parameters are correctly specified in the input. 
 
 ```{r}
-residlife(1, 20, 'gamma', c(shape= .9, scale = 2.2))
+residlife(min = 1, max= 20, distribution= 'gamma', parameters= c(shape= .9, scale = 2.2))
 ```
 
 ```{r}
-residlife(1, 20, 'gamma', c(shape= .9, rate = 1/2.2))
+residlife(min = 1, max = 20, distribution= 'gamma', parameters= c(shape= .9, rate = 1/2.2))
 ```
 
 Much like the 'reslife.fsr' function, the 'reslife' function has the ability to show mean, median,
 percentile, or all three. 
 
 ```{r}
-residlife(1, 20, 'weibull', c(shape= .9, scale = 2.2), p = .7, type = 'all')
+residlife(min = 1, max= 20, distribution= 'weibull', parameters= c(shape= .9, scale = 2.2), p = .7, type = 'all')
 ```
 
 The outputs of this function can then easily be taken and used in a plot or any other type of
