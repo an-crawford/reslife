@@ -151,7 +151,7 @@ Since 'Terrible' is not a valid level, the function errors and returns a message
 this error. 
 
 That is an overview of how to use the flexsurvreg-dependent function. Next, we will show how to get 
-residual life values by inputing your own parameters. 
+residual life values by inputting your own parameters. 
 
 ## Demonstration of the 'residlife' function
 
