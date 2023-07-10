@@ -3,5 +3,6 @@
 export(residlife)
 export(reslifefsr)
 import(flexsurv)
+import(gsl)
 importFrom(pracma,incgam)
 importFrom(zipfR,Rbeta)

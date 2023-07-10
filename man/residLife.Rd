@@ -4,12 +4,10 @@
 \alias{residlife}
 \title{Calculating Residual Life Values}
 \usage{
-residlife(min, max, distribution, parameters, p = 0.5, type = "mean")
+residlife(values, distribution, parameters, p = 0.5, type = "mean")
 }
 \arguments{
-\item{min}{Minimum value for which you want to see the MRL for}
-
-\item{max}{Maximum value for which you want to see the MRL for}
+\item{values}{Range of values over which residual life is calculated.}
 
 \item{distribution}{Name of the distribution. Needs to be one of "weibull", "gompertz",
 "gamma", "gengamma.orig", "exponential", "lnorm", or "llogis".}
@@ -23,7 +21,7 @@ in order as a vector, with the name of the parameter included.}
 or "all". Default is "mean".}
 }
 \value{
-The residual life for a specified sequence of values
+The residual life for a specified sequence of values.
 }
 \description{
 Calculating Residual Life Values

@@ -15,3 +15,8 @@ NULL
 #' @importFrom zipfR Rbeta
 ## usethis namespace: end
 NULL
+
+## usethis namespace: start
+#' @import gsl
+## usethis namespace: end
+NULL

@@ -157,21 +157,20 @@ residual life values by inputting your own parameters.
 
 This function works similarly to the 'reslife.fsr' function, except it doesn't rely on a flexsurvreg input. 
 Instead, the user inputs the name of the distibution and the parameters. The distribution must be one contained 
-within flexsurv (gamma, gengamma.orig, weibull, gompertz, exponential, lnorm, llogis, gengamma), and the names of the parameters must match those specified for each distribution. 
+within flexsurv (gamma, gengamma.orig, weibull, gompertz, exponential, lnorm, llogis, gengamma, genf, genf.orig), and the names of the parameters must match those specified for each distribution. 
 
 We will show a demonstration below. 
 
-The inputs for the function are simple. The minimum and maximum values for the are the first two arguments,
-1 and 20. The next argument is the distribution name, 'weibull'. The last argument are the parameters, 
+The inputs for the function are simple. Values is the first argument, which are the values for which the residual life will be calculated. Values is usually a vector or a seq function. The next argument is the distribution name, 'weibull'. The last argument are the parameters, 
 inputted as a vector. The names, shape and scale, are specified in the vector. 
 ```{r}
-residlife(min = 1,max =  20, distribution = 'weibull', parameters= c(shape= .9, scale = 2.2))
+residlife(values = seq(1,20), distribution = 'weibull', parameters= c(shape= .9, scale = 2.2))
 ```
 
 What if the parameter names are incorrect? The function will return an error. 
 
 ```{r}
-residlife(min = 1, max= 20, distribution= 'weibull', parameters= c(shape= .9, not_scale = 2.2))
+residlife(values = seq(1,20), distribution= 'weibull', parameters= c(shape= .9, not_scale = 2.2))
 ```
 
 For distributions where there are different parameterizations, the function can be flexible.
@@ -180,18 +179,18 @@ For example, gamma has both shape/rate and shape/scale parameterizations. he fun
 both, as long as the parameters are correctly specified in the input. 
 
 ```{r}
-residlife(min = 1, max= 20, distribution= 'gamma', parameters= c(shape= .9, scale = 2.2))
+residlife(values = seq(1,20), distribution= 'gamma', parameters= c(shape= .9, scale = 2.2))
 ```
 
 ```{r}
-residlife(min = 1, max = 20, distribution= 'gamma', parameters= c(shape= .9, rate = 1/2.2))
+residlife(values = seq(1,20), distribution= 'gamma', parameters= c(shape= .9, rate = 1/2.2))
 ```
 
 Much like the 'reslife.fsr' function, the 'reslife' function has the ability to show mean, median,
 percentile, or all three. 
 
 ```{r}
-residlife(min = 1, max= 20, distribution= 'weibull', parameters= c(shape= .9, scale = 2.2), p = .7, type = 'all')
+residlife(values = seq(1,20), distribution= 'weibull', parameters= c(shape= .9, scale = 2.2), p = .7, type = 'all')
 ```
 
 The outputs of this function can then easily be taken and used in a plot or any other type of
