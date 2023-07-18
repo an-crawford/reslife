@@ -12,8 +12,8 @@
 #' @return The residual life for a specified sequence of values.
 #' @export
 #'
-#' @examples residlife(0, 60, 'weibull', c(shape = 1.2, scale = 3))
-#' residlife(15, 35, 'gamma', c(shape = 1.2, rate =  1.7), p = .25, type ='all')
+#' @examples residlife(0:60 'weibull', c(shape = 1.2, scale = 3))
+#' residlife(15:35, 'gamma', c(shape = 1.2, rate =  1.7), p = .25, type ='all')
 residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'weibull'){
     life = values

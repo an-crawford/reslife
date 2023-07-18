@@ -27,6 +27,6 @@ The residual life for a specified sequence of values.
 Calculating Residual Life Values
 }
 \examples{
-residlife(0, 60, 'weibull', c(shape = 1.2, scale = 3))
-residlife(15, 35, 'gamma', c(shape = 1.2, rate =  1.7), p = .25, type ='all')
+residlife(0:60 'weibull', c(shape = 1.2, scale = 3))
+residlife(15:35, 'gamma', c(shape = 1.2, rate =  1.7), p = .25, type ='all')
 }
