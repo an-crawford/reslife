@@ -14,53 +14,58 @@
 #Written by: Andrew Crawford and Zekai Wang
 
 
-#' Calculate Residual Life Values Using 'flexsurvreg'
-#'
-#' @param data Name of a 'flexsurvreg' object from which data is extracted
-#' @param life Value of the 'given' used to calculate residual life
-#' @param p percentile, default is .5
+#' Calculate Residual Life Values Using a 'flexsurvreg' Object
+#' @description Calculate residual life values using a 'flexsurvreg' object. Contains an option to supply new data
+#' and returns the output as a vector.
+#' @param obj Name of a 'flexsurvreg' object from which data is extracted.
+#' @param life Value at which the user wants to calculate residual life. Given as a scalar.
+#' @param p percentile, default is .5.
 #' @param type can be 'mean', 'median', 'percentile', or 'all'. Default is
-#' 'mean'
+#' 'mean'.
 #' @param newdata a data frame containing new data values to calculate residual
 #' life for. Default is a blank data frame.
 #'
-#' @return Residual life values
+#' @return A vector of residual life values
 #' @export
 #'
 #' @examples
-#' reslifefsr(flexsurvreg, 6, .75, 'all')
-#' reslifefsr(flexsurvreg, 3, type = 'median', newdata = df_new)
-reslifefsr <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) {
+#' fitg <- flexsurvreg(formula = Surv(futime, fustat) ~ 1, data = ovarian, dist="gengamma")
+#' reslifefsr(obj = fitg, life = 6, p= .75, type= 'all')
+#'
+#' fitg2 <- flexsurvreg(formula = Surv(futime, fustat) ~ age, data = ovarian, dist="gengamma")
+#' df_new = data.frame(age = 12)
+#' reslifefsr(obj = fitg2, life = 3, type = 'median', newdata = df_new)
+reslifefsr <- function(obj, life, p=.5, type = 'mean', newdata = data.frame()) {
   stopifnot(class(newdata)=='data.frame')
-  if (data$dlist$name == 'gamma'){
-    return(gamma.rl(data, life, p, type, newdata))
+  if (obj$dlist$name == 'gamma'){
+    return(gamma.rl(obj, life, p, type, newdata))
   }
-  if (data$dlist$name == 'gompertz'){
-    return(gompertz.rl(data, life, p, type, newdata))
+  if (obj$dlist$name == 'gompertz'){
+    return(gompertz.rl(obj, life, p, type, newdata))
   }
-  if (data$dlist$name == 'llogis'){
-    return(llogis.rl(data, life, p, type, newdata))
+  if (obj$dlist$name == 'llogis'){
+    return(llogis.rl(obj, life, p, type, newdata))
   }
-  if (data$dlist$name == 'exp'){
-    return(exp.rl(data, life, p, type, newdata))
+  if (obj$dlist$name == 'exp'){
+    return(exp.rl(obj, life, p, type, newdata))
   }
-  if (data$dlist$name == 'lnorm'){
-    return(lnorm.rl(data, life, p, type, newdata))
+  if (obj$dlist$name == 'lnorm'){
+    return(lnorm.rl(obj, life, p, type, newdata))
   }
-  if (data$dlist$name == 'weibull.quiet'){
-    return(weibull_mlr(data, life, p, type, newdata))
+  if (obj$dlist$name == 'weibull.quiet'){
+    return(weibull_mlr(obj, life, p, type, newdata))
   }
-  if (data$dlist$name == 'gengamma.orig'){
-    return(gengamma.orig(data, life, p, type, newdata))
+  if (obj$dlist$name == 'gengamma.orig'){
+    return(gengamma.orig(obj, life, p, type, newdata))
   }
-  if (data$dlist$name == 'gengamma'){
-    return(gengamma(data, life, p, type, newdata))
+  if (obj$dlist$name == 'gengamma'){
+    return(gengamma(obj, life, p, type, newdata))
   }
-  if (data$dlist$name == 'genf'){
-    return(genF(data, life, p, type, newdata))
+  if (obj$dlist$name == 'genf'){
+    return(genF(obj, life, p, type, newdata))
   }
-  if (data$dlist$name == 'genf.orig'){
-    return(genF.orig(data, life, p, type, newdata))
+  if (obj$dlist$name == 'genf.orig'){
+    return(genF.orig(obj, life, p, type, newdata))
   }
 
 
@@ -69,6 +74,7 @@ reslifefsr <- function(data, life, p=.5, type = 'mean', newdata = data.frame()) 
     return('Invalid Distribution!')
   }
 }
+
 
 
 

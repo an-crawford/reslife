@@ -7,15 +7,15 @@
 residlife(values, distribution, parameters, p = 0.5, type = "mean")
 }
 \arguments{
-\item{values}{Range of values over which residual life is calculated.}
+\item{values}{Range of values over which residual life is calculated.Usually given as a vector.}
 
 \item{distribution}{Name of the distribution. Needs to be one of "weibull", "gompertz",
-"gamma", "gengamma.orig", "exponential", "lnorm", or "llogis".}
+"gamma", "gengamma.orig", "exponential", "lnorm", or "llogis", 'genf', or 'genf.orig'.}
 
 \item{parameters}{Parameters of the survival function. Needs to be inputted
 in order as a vector, with the name of the parameter included.}
 
-\item{p}{Percentile at which to calculate residual life. Default is .5}
+\item{p}{Percentile at which to calculate residual life. Default is .5.}
 
 \item{type}{Type of residual life outputted. Must be "mean", "median", "percentile",
 or "all". Default is "mean".}
@@ -24,9 +24,10 @@ or "all". Default is "mean".}
 The residual life for a specified sequence of values.
 }
 \description{
-Calculating Residual Life Values
+Calculates residual life values over a range of values. Allows the user to specify the
+distribution and the parameters.
 }
 \examples{
-residlife(0:60 'weibull', c(shape = 1.2, scale = 3))
-residlife(15:35, 'gamma', c(shape = 1.2, rate =  1.7), p = .25, type ='all')
+residlife(values = 0:60, distribution= 'weibull', parameters = c(shape = 1.2, scale = 3))
+residlife(values = 15:35, distribution= 'gamma', parameters =  c(shape = 1.2, rate =  1.7), p = .25, type ='all')
 }

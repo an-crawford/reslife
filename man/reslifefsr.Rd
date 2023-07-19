@@ -2,30 +2,35 @@
 % Please edit documentation in R/reslifefsr.R
 \name{reslifefsr}
 \alias{reslifefsr}
-\title{Calculate Residual Life Values Using 'flexsurvreg'}
+\title{Calculate Residual Life Values Using a 'flexsurvreg' Object}
 \usage{
-reslifefsr(data, life, p = 0.5, type = "mean", newdata = data.frame())
+reslifefsr(obj, life, p = 0.5, type = "mean", newdata = data.frame())
 }
 \arguments{
-\item{data}{Name of a 'flexsurvreg' object from which data is extracted}
+\item{obj}{Name of a 'flexsurvreg' object from which data is extracted.}
 
-\item{life}{Value of the 'given' used to calculate residual life}
+\item{life}{Value at which the user wants to calculate residual life. Given as a scalar.}
 
-\item{p}{percentile, default is .5}
+\item{p}{percentile, default is .5.}
 
 \item{type}{can be 'mean', 'median', 'percentile', or 'all'. Default is
-'mean'}
+'mean'.}
 
 \item{newdata}{a data frame containing new data values to calculate residual
 life for. Default is a blank data frame.}
 }
 \value{
-Residual life values
+A vector of residual life values
 }
 \description{
-Calculate Residual Life Values Using 'flexsurvreg'
+Calculate residual life values using a 'flexsurvreg' object. Contains an option to supply new data
+and returns the output as a vector.
 }
 \examples{
-reslifefsr(flexsurvreg, 6, .75, 'all')
-reslifefsr(flexsurvreg, 3, type = 'median', newdata = df_new)
+fitg <- flexsurvreg(formula = Surv(futime, fustat) ~ 1, data = ovarian, dist="gengamma")
+reslifefsr(obj = fitg, life = 6, p= .75, type= 'all')
+
+fitg2 <- flexsurvreg(formula = Surv(futime, fustat) ~ age, data = ovarian, dist="gengamma")
+df_new = data.frame(age = 12)
+reslifefsr(obj = fitg2, life = 3, type = 'median', newdata = df_new)
 }
