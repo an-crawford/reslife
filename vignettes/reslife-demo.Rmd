@@ -202,7 +202,7 @@ Let's look at an example of such a plot.
 Say we want to plot the mean residual life over time. First, we would create a vector for time, 
 run it through the residlife function with type = 'mean', and plot the output against time. For this example, we will use the 'weibull' distribution with shape = 2.9 and scale = 2.2. 
 
-```{r}
+```{r, fig.width=7, fig.height=5}
 time= seq(1,20)
 life = residlife(values = time, distribution = 'weibull', parameters= c(shape= 2.9, scale = 2.2))
 plot(time, life, xlab = 'Time', ylab = 'Mean Residual Life', main = 'MRL over Time')

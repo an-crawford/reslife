@@ -14,10 +14,10 @@
 #Written by: Andrew Crawford and Zekai Wang
 
 
-#' Calculate Residual Life Values Using a 'flexsurvreg' Object
-#' @description Calculate residual life values using a 'flexsurvreg' object. Contains an option to supply new data
+#' Calculate Residual Life Values Using a flexsurvreg() Object
+#' @description Calculate residual life values using a flexsurvreg() object. Contains an option to supply new data
 #' and returns the output as a vector.
-#' @param obj Name of a 'flexsurvreg' object from which data is extracted.
+#' @param obj Name of a flexsurvreg() object from which data is extracted.
 #' @param life Value at which the user wants to calculate residual life. Given as a scalar.
 #' @param p percentile, default is .5.
 #' @param type can be 'mean', 'median', 'percentile', or 'all'. Default is
@@ -29,10 +29,13 @@
 #' @export
 #'
 #' @examples
-#' fitg <- flexsurvreg(formula = Surv(futime, fustat) ~ 1, data = ovarian, dist="gengamma")
+#' library(flexsurv)
+#' fitg <- flexsurv::flexsurvreg(formula = Surv(futime, fustat) ~ 1,
+#' data = ovarian, dist="gengamma")
 #' reslifefsr(obj = fitg, life = 6, p= .75, type= 'all')
 #'
-#' fitg2 <- flexsurvreg(formula = Surv(futime, fustat) ~ age, data = ovarian, dist="gengamma")
+#' fitg2 <- flexsurv::flexsurvreg(formula = Surv(futime, fustat) ~ age,
+#' data = ovarian, dist="gengamma")
 #' df_new = data.frame(age = 12)
 #' reslifefsr(obj = fitg2, life = 3, type = 'median', newdata = df_new)
 reslifefsr <- function(obj, life, p=.5, type = 'mean', newdata = data.frame()) {

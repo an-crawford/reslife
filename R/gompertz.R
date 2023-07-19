@@ -13,14 +13,14 @@ gompertz.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame())
       print(newdata)
     }
   }
-  usethis::use_import_from("pracma", "incgam")
+  #usethis::use_import_from("pracma", "incgam")
   a = fsroutput$coefficients[1]
   if (length(newdata) == 0){
     if (fsroutput$ncovs == 0) {
       lambda = as.numeric(exp(fsroutput$coefficients[2]))
     }
     else{
-      s = fsr$coefficients
+      s = fsroutput$coefficients
       #s[2] = exp(s[2])
       lambda = exp(as.matrix(fsroutput$data$mml$rate) %*% as.numeric(s[-1]))
     }

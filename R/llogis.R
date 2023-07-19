@@ -19,7 +19,7 @@ llogis.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
       lambda = as.numeric(exp(fsroutput$coefficients[2]))
     }
     else{
-      s = fsr$coefficients
+      s = fsroutput$coefficients
       #s[2] = exp(s[2])
       lambda = exp(as.matrix(fsroutput$data$mml$scale) %*% as.numeric(s[-1]))
     }

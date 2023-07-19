@@ -14,7 +14,8 @@
 #' @export
 #'
 #' @examples residlife(values = 0:60, distribution= 'weibull', parameters = c(shape = 1.2, scale = 3))
-#' residlife(values = 15:35, distribution= 'gamma', parameters =  c(shape = 1.2, rate =  1.7), p = .25, type ='all')
+#' residlife(values = 15:35, distribution= 'gamma', parameters =  c(shape = 1.2, rate =  1.7),
+#' p = .25, type ='all')
 residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'weibull'){
     life = values
@@ -80,7 +81,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
     x = values
     upper_incomplete_gamma <- function(x,a) {
       #return (incgam(x,a))
-      return (gamma(a) * pgamma(x, a, 1, lower = FALSE))
+      return (gamma(a) * pgamma(x, a, 1, lower.tail = FALSE))
     }
     if (names(parameters)[1]!= "shape" | names(parameters)[2]!= "scale" | names(parameters)[3]!= 'k'){
       print("incorrect parameters entered. Parameters for gengamma.orig are shape, scale, and k")
@@ -102,7 +103,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'gengamma'){
     x = values
     upper_incomplete_gamma <- function(x,a) {
-      return (gamma(a) * pgamma(x, a, 1, lower = FALSE))
+      return (gamma(a) * pgamma(x, a, 1, lower.tail = FALSE))
     }
     if (names(parameters)[1]!= "mu" | names(parameters)[2]!= "sigma" | names(parameters)[3]!= 'Q'){
       print("incorrect parameters entered. Parameters for gengamma are mu, sigma, and Q")

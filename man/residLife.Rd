@@ -29,5 +29,6 @@ distribution and the parameters.
 }
 \examples{
 residlife(values = 0:60, distribution= 'weibull', parameters = c(shape = 1.2, scale = 3))
-residlife(values = 15:35, distribution= 'gamma', parameters =  c(shape = 1.2, rate =  1.7), p = .25, type ='all')
+residlife(values = 15:35, distribution= 'gamma', parameters =  c(shape = 1.2, rate =  1.7),
+p = .25, type ='all')
 }

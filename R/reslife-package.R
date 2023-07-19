@@ -20,3 +20,9 @@ NULL
 #' @import gsl
 ## usethis namespace: end
 NULL
+
+## usethis namespace: start
+#' @importFrom stats integrate model.matrix pbeta pgamma pnorm qexp qgamma
+#' qlnorm qweibull
+## usethis namespace: end
+NULL

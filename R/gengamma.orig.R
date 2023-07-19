@@ -7,7 +7,7 @@
 
 upper_incomplete_gamma <- function(x,a) {
   #return (incgam(x,a))
-  return (gamma(a) * pgamma(x, a, 1, lower = FALSE))
+  return (gamma(a) * pgamma(x, a, 1, lower.tail = FALSE))
 }
 
 
