@@ -9,8 +9,8 @@ residlife(values, distribution, parameters, p = 0.5, type = "mean")
 \arguments{
 \item{values}{Range of values over which residual life is calculated.Usually given as a vector.}
 
-\item{distribution}{Name of the distribution. Needs to be one of "weibull", "gompertz",
-"gamma", "gengamma.orig", "exponential", "lnorm", or "llogis", 'genf', or 'genf.orig'.}
+\item{distribution}{Name of the distribution. Needs to be one of 'weibull', 'gompertz',
+'gamma', 'gengamma.orig', 'exponential', 'lnorm', or 'llogis', 'genf', or 'genf.orig'.}
 
 \item{parameters}{Parameters of the survival function. Needs to be inputted
 in order as a vector, with the name of the parameter included.}

@@ -19,13 +19,13 @@ knitr::opts_chunk$set(
 library(reslife)
 ```
 ## Demonstration of the 'reslifefsr' function
-This function exclusively uses flexsurvreg objects as the source of the data. We will show 
+This function exclusively uses flexsurvreg() objects as the source of the data. We will show 
 how to use the function below. First, we'll start off with a simple example and show how the mean 
 produced is equal to the integration. 
 
 
-We run a flexsurvreg with a single covariate for the 'gengamma.orig'
-distribution. We then run the reslifefsr function, using the flexsurvreg object. 
+We run a flexsurvreg() with a single covariate for the 'gengamma.orig'
+distribution. We then run the reslifefsr() function, using the flexsurvreg() object. 
 We have a life of 1, which is a scalar value at which we calculate the residual life,
 and specify that we only want the mean.
 ```{r}
@@ -36,7 +36,7 @@ r
 ```
  
 
-We can verify the accuracy of our derivation using the integrate funcion. 
+We can verify the accuracy of our derivation using the integrate function. 
 ```{r}
 
 b <- exp(as.numeric(fs1$coefficients[1]))
@@ -56,8 +56,8 @@ As you can see, the mean values are the same.
 
 ### Demonstration with multiple covariates
 
-What if the flexsurvreg object has multiple covariates? We will see this below. 
-We will use the 'bc' dataset contained within flexsurv with an added covariate
+What if the flexsurvreg() object has multiple covariates? We will see this below. 
+We will use the 'bc' dataset contained within 'flexsurv' with an added covariate
 'age'. 
 ```{r}
 data(bc)
@@ -70,7 +70,7 @@ Generating a flexsurvreg object:
 fsr2 =  flexsurvreg(Surv(recyrs, censrec) ~ group+age, data=newbc, dist = 'weibull')
 ```
 
-We can now use the reslifefsr function to generate residual life values. There are 686 values,
+We can now use the reslifefsr() function to generate residual life values. There are 686 values,
 since the length of the input is 686. We are only going to show 10, in order to save space. 
 
 ```{r}
@@ -89,10 +89,10 @@ head(reslifefsr(obj = fsr2, life= 4, p = .8, type = 'all'),10)
 Notice how when 'all' is used, the output is a dataframe with the name of each value 
 as the column names. 
 
-But what if we want to supply our own data and make predictions? Since the flexsurv regression
+But what if we want to supply our own data and make predictions? Since the 'flexsurv' regression
 object generates parameters, we can add our own data points and get the residual life values for each. 
 
-Let's start by generating some data. This data has the same two levels as fsr2 above (group, age).
+Let's start by generating some data. This data has the same two levels as 'fsr2' above (group, age).
 Note that the data is placed in a data frame. The new data must be inputted as a data frame
 for the function to work. 
 ```{r}
@@ -101,7 +101,7 @@ age = c(43, 35, 39)
 newdata = data.frame(age, group)
 ```
 
-We run that through the reslifefsr function and get a 3 row data frame
+We run that through the reslifefsr() function and get a 3 row data frame
 
 ```{r}
 reslifefsr(obj = fsr2,life= 4,p = .6, type = 'all', newdata= newdata)
@@ -151,14 +151,14 @@ reslifefsr(obj = fsr2,life= 4,p = .6, type = 'all', newdata= newdata)
 Since 'Terrible' is not a valid level, the function errors and returns a message notifying the user of
 this error. 
 
-That is an overview of how to use the flexsurvreg-dependent function. Next, we will show how to get 
+That is an overview of how to use the flexsurvreg() dependent function. Next, we will show how to get 
 residual life values by inputting your own parameters. 
 
 ## Demonstration of the 'residlife' function
 
-This function works similarly to the 'reslife.fsr' function, except it doesn't rely on a flexsurvreg input. 
-Instead, the user inputs the name of the distibution and the parameters. The distribution must be one contained 
-within flexsurv (gamma, gengamma.orig, weibull, gompertz, exponential, lnorm, llogis, gengamma, genf, genf.orig), and the names of the parameters must match those specified for each distribution. 
+This function works similarly to the reslifefsr() function, except it doesn't rely on a flexsurvreg() input. 
+Instead, the user inputs the name of the distribution and the parameters. The distribution must be one contained 
+within 'flexsurv' ('gamma', 'gengamma.orig', 'weibull', 'gompertz', 'exponential', 'lnorm', 'llogis', 'gengamma', 'genf', 'genf.orig'), and the names of the parameters must match those specified for each distribution. 
 
 We will show a demonstration below. 
 
@@ -176,7 +176,7 @@ residlife(values = seq(1,20), distribution= 'weibull', parameters= c(shape= .9, 
 
 For distributions where there are different parameterizations, the function can be flexible.
 
-For example, gamma has both shape/rate and shape/scale parameterizations. he function works for 
+For example, 'gamma' has both shape/rate and shape/scale parameterizations. The function works for 
 both, as long as the parameters are correctly specified in the input. 
 
 ```{r}
@@ -187,7 +187,7 @@ residlife(values = seq(1,20), distribution= 'gamma', parameters= c(shape= .9, sc
 residlife(values = seq(1,20), distribution= 'gamma', parameters= c(shape= .9, rate = 1/2.2))
 ```
 
-Much like the 'reslife.fsr' function, the 'reslife' function has the ability to show mean, median,
+Much like the reslifefsr() function, the reslife() function has the ability to show mean, median,
 percentile, or all three. 
 
 ```{r}

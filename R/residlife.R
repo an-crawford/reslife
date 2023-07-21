@@ -3,8 +3,8 @@
 #' @description Calculates residual life values over a range of values. Allows the user to specify the
 #' distribution and the parameters.
 #' @param values Range of values over which residual life is calculated.Usually given as a vector.
-#' @param distribution Name of the distribution. Needs to be one of "weibull", "gompertz",
-#' "gamma", "gengamma.orig", "exponential", "lnorm", or "llogis", 'genf', or 'genf.orig'.
+#' @param distribution Name of the distribution. Needs to be one of 'weibull', 'gompertz',
+#' 'gamma', 'gengamma.orig', 'exponential', 'lnorm', or 'llogis', 'genf', or 'genf.orig'.
 #' @param parameters Parameters of the survival function. Needs to be inputted
 #' in order as a vector, with the name of the parameter included.
 #' @param p Percentile at which to calculate residual life. Default is .5.
