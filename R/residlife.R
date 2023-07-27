@@ -164,6 +164,23 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
     }
   }
   if (distribution == 'llogis'){
+    regbeta = function (x, a, b, lower = TRUE, log = !missing(base), base = exp(1))
+    {
+      if (log) {
+        if (missing(base)) {
+          pbeta(x, shape1 = a, shape2 = b, lower.tail = lower,
+                log.p = TRUE)
+        }
+        else {
+          pbeta(x, shape1 = a, shape2 = b, lower.tail = lower,
+                log.p = TRUE)/log(base)
+        }
+      }
+      else {
+        pbeta(x, shape1 = a, shape2 = b, lower.tail = lower,
+              log.p = FALSE)
+      }
+    }
     x = values
     if (names(parameters)[1]!= "shape" | names(parameters)[2]!= "scale"){
       print("incorrect parameters entered. The parameters fir llogis are shape and scale.")
@@ -177,7 +194,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
       sx = 1/(1+d)
       shapez = 1- (1/a)
       scalez = 1/a
-      mx = as.numeric((lambda*(pi/a)/sin(pi/a))*(1+d)*(zipfR::Rbeta((1-sx), scalez, shapez, lower = FALSE)))
+      mx = as.numeric((lambda*(pi/a)/sin(pi/a))*(1+d)*(regbeta((1-sx), scalez, shapez, lower = FALSE)))
       px = function(p){
         pc = (1-p)*sx
         px = as.numeric(qllogis(pc, shape = a, scale = (lambda), lower.tail = FALSE) - x)
