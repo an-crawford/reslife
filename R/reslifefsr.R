@@ -19,7 +19,7 @@
 #' and returns the output as a vector.
 #' @param obj Name of a flexsurvreg() object from which data is extracted.
 #' @param life Value at which the user wants to calculate residual life. Given as a scalar.
-#' @param p percentile, default is .5.
+#' @param p percentile for percentile residual life, default is .5
 #' @param type can be 'mean', 'median', 'percentile', or 'all'. Default is
 #' 'mean'.
 #' @param newdata a data frame containing new data values to calculate residual
@@ -40,6 +40,7 @@
 #' reslifefsr(obj = fitg2, life = 3, type = 'median', newdata = df_new)
 reslifefsr <- function(obj, life, p=.5, type = 'mean', newdata = data.frame()) {
   stopifnot(class(newdata)=='data.frame')
+  stopifnot(length(life)==1)
   if (obj$dlist$name == 'gamma'){
     return(gamma.rl(obj, life, p, type, newdata))
   }
@@ -77,6 +78,7 @@ reslifefsr <- function(obj, life, p=.5, type = 'mean', newdata = data.frame()) {
     return('Invalid Distribution!')
   }
 }
+
 
 
 
