@@ -18,7 +18,7 @@
 #' @description Calculate residual life values using a flexsurvreg() object. Contains an option to supply new data
 #' and returns the output as a vector.
 #' @param obj Name of a flexsurvreg() object from which data is extracted.
-#' @param life Value at which the user wants to calculate residual life. Given as a scalar.
+#' @param life Value at which the user wants to calculate residual life. Must be a scalar.
 #' @param p percentile for percentile residual life, default is .5
 #' @param type can be 'mean', 'median', 'percentile', or 'all'. Default is
 #' 'mean'.
