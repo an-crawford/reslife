@@ -9,9 +9,9 @@ reslifefsr(obj, life, p = 0.5, type = "mean", newdata = data.frame())
 \arguments{
 \item{obj}{Name of a flexsurvreg() object from which data is extracted.}
 
-\item{life}{Value at which the user wants to calculate residual life. Given as a scalar.}
+\item{life}{Value at which the user wants to calculate residual life. Must be a scalar.}
 
-\item{p}{percentile, default is .5.}
+\item{p}{percentile for percentile residual life, default is .5}
 
 \item{type}{can be 'mean', 'median', 'percentile', or 'all'. Default is
 'mean'.}

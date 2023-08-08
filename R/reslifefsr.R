@@ -40,7 +40,11 @@
 #' reslifefsr(obj = fitg2, life = 3, type = 'median', newdata = df_new)
 reslifefsr <- function(obj, life, p=.5, type = 'mean', newdata = data.frame()) {
   stopifnot(class(newdata)=='data.frame')
-  stopifnot(length(life)==1)
+  if (length(life)!=1){
+    print('The life value must be a scalar')
+    error = 1
+    stopifnot(error =2)
+  }
   if (obj$dlist$name == 'gamma'){
     return(gamma.rl(obj, life, p, type, newdata))
   }
