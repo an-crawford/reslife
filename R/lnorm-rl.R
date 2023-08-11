@@ -3,7 +3,7 @@
 ###########################
 
 
-lnorm.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
+lnorm_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
   if (length(newdata)!=0){
     if (length(newdata) == 1){
       stopifnot(fsroutput$covdata$covnames == colnames(newdata))

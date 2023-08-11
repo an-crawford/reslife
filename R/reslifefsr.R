@@ -46,34 +46,34 @@ reslifefsr <- function(obj, life, p=.5, type = 'mean', newdata = data.frame()) {
     stopifnot(error =2)
   }
   if (obj$dlist$name == 'gamma'){
-    return(gamma.rl(obj, life, p, type, newdata))
+    return(gamma_rl(obj, life, p, type, newdata))
   }
   if (obj$dlist$name == 'gompertz'){
-    return(gompertz.rl(obj, life, p, type, newdata))
+    return(gompertz_rl(obj, life, p, type, newdata))
   }
   if (obj$dlist$name == 'llogis'){
-    return(llogis.rl(obj, life, p, type, newdata))
+    return(llogis_rl(obj, life, p, type, newdata))
   }
   if (obj$dlist$name == 'exp'){
-    return(exp.rl(obj, life, p, type, newdata))
+    return(exp_rl(obj, life, p, type, newdata))
   }
   if (obj$dlist$name == 'lnorm'){
-    return(lnorm.rl(obj, life, p, type, newdata))
+    return(lnorm_rl(obj, life, p, type, newdata))
   }
   if (obj$dlist$name == 'weibull.quiet'){
     return(weibull_mlr(obj, life, p, type, newdata))
   }
   if (obj$dlist$name == 'gengamma.orig'){
-    return(gengamma.orig(obj, life, p, type, newdata))
+    return(gengamma_orig_rl(obj, life, p, type, newdata))
   }
   if (obj$dlist$name == 'gengamma'){
-    return(gengamma(obj, life, p, type, newdata))
+    return(gengamma_rl(obj, life, p, type, newdata))
   }
   if (obj$dlist$name == 'genf'){
-    return(genF(obj, life, p, type, newdata))
+    return(genF_rl(obj, life, p, type, newdata))
   }
   if (obj$dlist$name == 'genf.orig'){
-    return(genF.orig(obj, life, p, type, newdata))
+    return(genF_orig_rl(obj, life, p, type, newdata))
   }
 
 

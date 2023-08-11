@@ -2,7 +2,7 @@
 ##Author: Andrew Crawford##
 ###########################
 
-llogis.rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
+llogis_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
   regbeta = function (x, a, b, lower = TRUE, log = !missing(base), base = exp(1))
   {
     if (log) {

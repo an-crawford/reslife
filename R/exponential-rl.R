@@ -2,7 +2,7 @@
 ##Author: Andrew Crawford##
 ###########################
 
-exp.rl <- function(fsoutput,x, p=.5, type = 'all', newdata = data.frame()) {
+exp_rl <- function(fsoutput,x, p=.5, type = 'all', newdata = data.frame()) {
   if (length(newdata)!=0){
     if (length(newdata) == 1){
       stopifnot(fsoutput$covdata$covnames == colnames(newdata))
