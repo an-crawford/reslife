@@ -6,7 +6,7 @@
 \alias{reslife-package}
 \title{reslife: Calculate Residual Life Values for Different Distributions}
 \description{
-A pair of functions for calculating mean, median, and/or percentile residual life using the outputs of either the 'flexsurv' package or parameters provided by the user. Input information about the distribution, the given 'life' value, the percentile, and the type of residual life, and the function will return your desired values. For the flexsurv option, the function allows the user to input their own data for making predictions.
+A pair of functions for calculating mean, median, and/or percentile residual life using the outputs of either the 'flexsurv' package or parameters provided by the user. Input information about the distribution, the given 'life' value, the percentile, and the type of residual life, and the function will return your desired values. For the 'flexsurv' option, the function allows the user to input their own data for making predictions.
 }
 \seealso{
 Useful links:
