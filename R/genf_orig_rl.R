@@ -17,7 +17,6 @@
 
 # s1 = m1, s2 = m2, sigma = sigma, mu = beta
 
-library(gsl)
 
 incomplete_beta <- function(x,a,b) {
   return (pbeta(x,a,b)*beta(a,b));

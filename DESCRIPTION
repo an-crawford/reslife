@@ -19,7 +19,7 @@ Description: A pair of functions for calculating mean, median, and/or percentile
 License: GPL (>= 3)
 Encoding: UTF-8
 RoxygenNote: 7.2.3
-Imports: 
+Depends: 
     pracma,
     flexsurv,
     gsl

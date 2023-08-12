@@ -18,7 +18,6 @@
 # s1 = m1, s2 = m2, sigma = sigma, mu = beta (orignal)
 # m1 = 2*(Q^2 + 2*P + Q*delta)^(-1), m2 = 2*(Q^2 + 2*P - Q*delta)^(-1), delta = (Q^2 + 2*P)^(1/2) (prentice)
 
-library(gsl)
 
 incomplete_beta <- function(x,a,b) {
   return (pbeta(x,a,b)*beta(a,b));
