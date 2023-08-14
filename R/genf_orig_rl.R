@@ -39,7 +39,9 @@ genF_orig_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()
 
 
 
-      stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+      if(fsroutput$covdata$covnames != colnames(newdata)){
+        stop('Wrong columns in inputted data')
+      }
 
 
 
@@ -165,15 +167,11 @@ genF_orig_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()
 
 
 
-        print('Incorrect Level Entered')
+        stop('Incorrect Level Entered')
 
 
 
-        error = 1
 
-
-
-        stopifnot(error = 0)
 
 
 
