@@ -5,12 +5,13 @@
 gompertz_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
   if (length(newdata)!=0){
     if (length(newdata) == 1){
-      stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+      if(fsroutput$covdata$covnames != colnames(newdata)){
+        stop('Wrong columns in inputted data')
+      }
     }
     else{
       names = fsroutput$covdata$covnames
       newdata= newdata[,c(names)]
-      print(newdata)
     }
   }
   #usethis::use_import_from("pracma", "incgam")
@@ -38,9 +39,7 @@ gompertz_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame())
       sb = sb[!is.na(sb)]
       sc = append(sa,sb)
       if (length(sc) != ncol(X)){
-        print('Incorrect Level Entered')
-        error = 1
-        stopifnot(error = 0)
+        stop('Incorrect Level Entered')
       }
       lambda = exp(as.matrix(X) %*% as.numeric(sc))
     }

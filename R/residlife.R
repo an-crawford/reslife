@@ -16,13 +16,23 @@
 #' @examples residlife(values = 0:60, distribution= 'weibull', parameters = c(shape = 1.2, scale = 3))
 #' residlife(values = 15:35, distribution= 'gamma', parameters =  c(shape = 1.2, rate =  1.7),
 #' p = .25, type ='all')
+#'
+#' @references Jackson CH (2016). “flexsurv: a platform for parametric survival modeling in R.” Journal of
+#' statistical software, 70.
+#'
+#' Poynor V (2010). “Bayesian inference for mean residual life functions in survival analysis.”
+#' Masters diss., University of California, Santa Cruz.
+#'
+#' Prentice RL (1975). “Discrimination among some parametric models.” Biometrika, 62(3),
+#' 607–614.
+#'
+#' Stacy EW (1962). “A generalization of the gamma distribution.” The Annals of mathematical
+#' statistics, pp. 1187–1192
 residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'weibull'){
     life = values
     if (names(parameters)[1]!= "shape" | names(parameters)[2]!= "scale"){
-      print("incorrect parameters entered. Parameters for weibull are shape and scale")
-      error = 1
-      stopifnot(error = 0)
+      stop("incorrect parameters entered. Parameters for weibull are shape and scale")
     }
     else{
       shape_para = parameters[1]
@@ -38,9 +48,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'gompertz'){
     x = values
     if (names(parameters)[1]!= "shape" | !(names(parameters)[2] %in% c("scale", "rate"))){
-      print("incorrect parameters entered. Parameters for gompertz are shape and scale/rate")
-      error = 1
-      stopifnot(error = 0)
+      stop("incorrect parameters entered. Parameters for gompertz are shape and scale/rate")
     }
     else{
       a = parameters[1]
@@ -57,9 +65,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'gamma'){
     x = values
     if (names(parameters)[1]!= "shape" | !(names(parameters)[2] %in% c("scale", "rate"))){
-      print("incorrect parameters entered. Parameters for gamma are shape and scale/rate")
-      error = 1
-      stopifnot(error = 0)
+      stop("incorrect parameters entered. Parameters for gamma are shape and scale/rate")
     }
     else{
       if (names(parameters)[2] == 'rate'){
@@ -84,9 +90,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
       return (gamma(a) * pgamma(x, a, 1, lower.tail = FALSE))
     }
     if (names(parameters)[1]!= "shape" | names(parameters)[2]!= "scale" | names(parameters)[3]!= 'k'){
-      print("incorrect parameters entered. Parameters for gengamma.orig are shape, scale, and k")
-      error = 1
-      stopifnot(error = 0)
+      stop("incorrect parameters entered. Parameters for gengamma.orig are shape, scale, and k")
     }
     else{
       b = parameters[1]
@@ -106,9 +110,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
       return (gamma(a) * pgamma(x, a, 1, lower.tail = FALSE))
     }
     if (names(parameters)[1]!= "mu" | names(parameters)[2]!= "sigma" | names(parameters)[3]!= 'Q'){
-      print("incorrect parameters entered. Parameters for gengamma are mu, sigma, and Q")
-      error = 1
-      stopifnot(error = 0)
+      stop("incorrect parameters entered. Parameters for gengamma are mu, sigma, and Q")
     }
     else{
       mu = parameters[1]
@@ -130,9 +132,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'exponential'){
     x = values
     if (names(parameters)[1]!= 'rate'){
-      print("incorrect parameter entered. The parameter for exponential is rate")
-      error = 1
-      stopifnot(error = 0)
+      stop("incorrect parameter entered. The parameter for exponential is rate")
     }
     else{
       lambda = parameters[1]
@@ -148,9 +148,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'lnorm'){
     x = values
     if (names(parameters)[1]!= "meanlog" | names(parameters)[2]!= "sdlog"){
-      print("incorrect parameters entered. The parameters for lnorm are meanlog and sdlog")
-      error = 1
-      stopifnot(error = 0)
+      stop("incorrect parameters entered. The parameters for lnorm are meanlog and sdlog")
     }
     else{
       mu = parameters[1]
@@ -183,9 +181,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
     }
     x = values
     if (names(parameters)[1]!= "shape" | names(parameters)[2]!= "scale"){
-      print("incorrect parameters entered. The parameters fir llogis are shape and scale.")
-      error = 1
-      stopifnot(error = 0)
+      stop("incorrect parameters entered. The parameters fir llogis are shape and scale.")
     }
     else{
       a = parameters[1]
@@ -204,9 +200,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'genf'){
     x = values
     if(names(parameters)[1]!= 'mu' | names(parameters)[2]!= 'sigma' | names(parameters)[3]!= 'Q' | names(parameters)[4]!= 'P'){
-      print("incorrect parameters entered. The parameters for genf are mu, sigma, Q, and P")
-      error = 1
-      stopifnot(error = 0)
+      stop("incorrect parameters entered. The parameters for genf are mu, sigma, Q, and P")
     }
     else{
       mu = parameters[1]
@@ -238,9 +232,7 @@ residlife = function(values, distribution, parameters, p = .5, type = 'mean'){
   if (distribution == 'genf.orig'){
     x = values
     if(names(parameters)[1]!= 'mu' | names(parameters)[2]!= 'sigma' | names(parameters)[3]!= 'm1' | names(parameters)[4]!= 'm2'){
-      print("incorrect parameters entered. The parameters for genf.orig are mu, sigma, m1, and m2.")
-      error = 1
-      stopifnot(error = 0)
+      stop("incorrect parameters entered. The parameters for genf.orig are mu, sigma, m1, and m2.")
     }
     else{
       sx = pgenf.orig(x, mu = mu,  sigma = sigma, s1 = m1, s2 = m2, lower.tail = FALSE)

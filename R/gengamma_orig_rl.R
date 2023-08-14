@@ -14,7 +14,9 @@ upper_incomplete_gamma <- function(x,a) {
 gengamma_orig_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
   if (length(newdata)!=0){
     if (length(newdata) == 1){
-      stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+      if(fsroutput$covdata$covnames != colnames(newdata)){
+        stop('Wrong columns in inputted data')
+      }
     }
     else{
       names = fsroutput$covdata$covnames
@@ -46,9 +48,7 @@ gengamma_orig_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.fra
       sb = sb[!is.na(sb)]
       sc = append(sa,sb)
       if (length(sc) != ncol(X)){
-        print('Incorrect Level Entered')
-        error = 1
-        stopifnot(error = 0)
+        stop('Incorrect Level Entered')
       }
       a = exp(as.matrix(X) %*% as.numeric(sc))
     }

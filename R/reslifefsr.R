@@ -38,12 +38,23 @@
 #' data = ovarian, dist="gengamma")
 #' df_new = data.frame(age = 12)
 #' reslifefsr(obj = fitg2, life = 3, type = 'median', newdata = df_new)
+#'
+#' @references Jackson CH (2016). “flexsurv: a platform for parametric survival modeling in R.” Journal of
+#' statistical software, 70.
+#'
+#' Poynor V (2010). “Bayesian inference for mean residual life functions in survival analysis.”
+#' Masters diss., University of California, Santa Cruz.
+#'
+#' Prentice RL (1975). “Discrimination among some parametric models.” Biometrika, 62(3),
+#' 607–614.
+#'
+#' Stacy EW (1962). “A generalization of the gamma distribution.” The Annals of mathematical
+#' statistics, pp. 1187–1192
+
 reslifefsr <- function(obj, life, p=.5, type = 'mean', newdata = data.frame()) {
   stopifnot(class(newdata)=='data.frame')
   if (length(life)!=1){
-    print('The life value must be a scalar')
-    error = 1
-    stopifnot(error =2)
+    stop('The life value must be a scalar')
   }
   if (obj$dlist$name == 'gamma'){
     return(gamma_rl(obj, life, p, type, newdata))

@@ -31,4 +31,18 @@ distribution and the parameters.
 residlife(values = 0:60, distribution= 'weibull', parameters = c(shape = 1.2, scale = 3))
 residlife(values = 15:35, distribution= 'gamma', parameters =  c(shape = 1.2, rate =  1.7),
 p = .25, type ='all')
+
+}
+\references{
+Jackson CH (2016). “flexsurv: a platform for parametric survival modeling in R.” Journal of
+statistical software, 70.
+
+Poynor V (2010). “Bayesian inference for mean residual life functions in survival analysis.”
+Masters diss., University of California, Santa Cruz.
+
+Prentice RL (1975). “Discrimination among some parametric models.” Biometrika, 62(3),
+607–614.
+
+Stacy EW (1962). “A generalization of the gamma distribution.” The Annals of mathematical
+statistics, pp. 1187–1192
 }

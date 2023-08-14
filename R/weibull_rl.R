@@ -1,6 +1,5 @@
 #install.packages('flexsurv')
 #install.packages('survival')
-library(flexsurv)
 
 #input and output
 #input
@@ -31,13 +30,15 @@ library(flexsurv)
 weibull_mlr <- function(fsoutput,life, p=.5, type = 'all', newdata = data.frame()){
 
   if (fsoutput$dlist$name != "weibull.quiet") {
-    print("wrong distribution")
+    stop("wrong distribution")
   }
 
   else  {
     if (length(newdata)!=0){
       if (length(newdata) == 1){
-        stopifnot(fsoutput$covdata$covnames == colnames(newdata))
+        if(fsoutput$covdata$covnames != colnames(newdata)){
+          stop('Wrong columns in inputted data')
+        }
       }
       else{
         names = fsoutput$covdata$covnames
@@ -67,9 +68,7 @@ weibull_mlr <- function(fsoutput,life, p=.5, type = 'all', newdata = data.frame(
         sb = sb[!is.na(sb)]
         sc = append(sa,sb)
         if (length(sc) != ncol(X)){
-          print('Incorrect Level Entered')
-          error = 1
-          stopifnot(error = 0)
+          stop('Incorrect Level Entered')
         }
         scale_para = exp(as.matrix(X) %*% as.numeric(sc))
       }

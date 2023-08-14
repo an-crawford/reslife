@@ -67,7 +67,9 @@ gengamma_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame())
 
     if (length(newdata) == 1){
 
-      stopifnot(fsroutput$covdata$covnames == colnames(newdata))
+      if(fsroutput$covdata$covnames != colnames(newdata)){
+        stop('Wrong columns in inputted data')
+      }
 
     }
 
@@ -134,11 +136,8 @@ gengamma_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame())
 
       if (length(sc) != ncol(X)){
 
-        print('Incorrect Level Entered')
+        stop('Incorrect Level Entered')
 
-        error = 1
-
-        stopifnot(error = 0)
 
       }
 
