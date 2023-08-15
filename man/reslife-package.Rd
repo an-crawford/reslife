@@ -21,6 +21,7 @@ Useful links:
 Authors:
 \itemize{
   \item Zekai Wang \email{wangzekai1203@gmail.com}
+  \item Ka Lok Lee \email{kaloklee@gmail.com}
 }
 
 }

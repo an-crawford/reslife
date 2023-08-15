@@ -8,6 +8,9 @@ Authors@R: c(person("Andrew", "Crawford",
     role = c('cre', 'aut')), 
     person("Zekai", "Wang",
     email='wangzekai1203@gmail.com',
+    role = c('aut')),
+    person("Ka Lok", "Lee",
+    email = "kaloklee@gmail.com", 
     role = c('aut'))
       )
 Description: A pair of functions for calculating mean, median, and/or percentile 
