@@ -21,3 +21,6 @@ NOTE: if there is an error installing dependency package GSL, put the following 
 $ sudo apt install libgsl-dev 
 
 
+An in-depth demonstration of the package's capabilities can be accessed [here](https://cran.r-project.org/web/packages/reslife/vignettes/reslife-demo.html)
+
+The paper for this package can be accessed [here](https://arxiv.org/pdf/2308.07410.pdf)
