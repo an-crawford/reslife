@@ -223,7 +223,10 @@ genF_orig_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()
 ###########Closed Form for raw mean#############################
   
   Genf_mean_raw <- function(mu, sigma, m1, m2) {
-    
+
+   if ( m2 < sigma ){
+       message("Estimated parameters produce an undefined mean.")
+   }
     return(exp(mu)*(m2/m1)^sigma*beta(m1+sigma,m2-sigma)/beta(m1,m2))
     
   }
