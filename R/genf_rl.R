@@ -8,7 +8,7 @@
 ############################
 
 #### Author: Zekai Wang ####
-
+#### updated by: Ka Lok Lee Sep 2023
 ############################
 
 
@@ -218,22 +218,7 @@ genF_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()){
   part3 = Gauss2F1b(m1+m2, m2-sigma, m2-sigma+1, -1/C)
   
   num_integral = part1 * part2 * part3
-  
-  #  f0 <- function(x,mu) {
-  #    return(x*dgenf.orig(x,
-  #                        mu = mu,
-  
-  #                        sigma = sigma,
-  
-  #                        s1 = m1,
-  
-  #                        s2 = m2))
-  #  }
-  
-  #  integral_fun <- function(mu) integrate(f0, 0, Inf,mu)$value
-  
-  #  vec_integral_fun <- Vectorize(integral_fun)
-  
+   
   ###########Closed Form for raw mean#############################
   
   Genf_mean_raw <- function(mu, sigma, m1, m2) {
