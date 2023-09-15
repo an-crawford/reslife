@@ -269,7 +269,7 @@ genF_orig_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()
   
   if (type=='mean'){ 
     
-   if (pmin(c(mx))< 0){
+   if (min(c(mx))< 0){
        message("Estimated parameters produce an undefined mean.")
    }
    
@@ -305,7 +305,7 @@ genF_orig_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()
   
   if (type == 'all'){
     
-    if(pmin(c(mx))< 0){
+    if(min(c(mx))< 0){
          message("Estimated parameters produce an undefined mean.")
      }
     
