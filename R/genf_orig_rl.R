@@ -220,21 +220,6 @@ genF_orig_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame()
   
   num_integral = part1 * part2 * part3
   
-#  f0 <- function(x,mu) {
-#    return(x*dgenf.orig(x,
-#                        mu = mu,
-                        
-#                        sigma = sigma,
-                        
-#                        s1 = m1,
-                        
-#                        s2 = m2))
-#  }
-  
-#  integral_fun <- function(mu) integrate(f0, 0, Inf,mu)$value
-  
-#  vec_integral_fun <- Vectorize(integral_fun)
-  
 ###########Closed Form for raw mean#############################
   
   Genf_mean_raw <- function(mu, sigma, m1, m2) {
