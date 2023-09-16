@@ -1,8 +1,8 @@
 Package: reslife
 Type: Package
-Title: Calculate Residual Life Values for Different Distributions
-Version: 0.1.0
-Date: 2023-08-11
+Title: Calculate Mean Residual Life (MRL) and Realated Values for Different Distributions
+Version: 0.1.1
+Date: 2023-09-15
 Authors@R: c(person("Andrew", "Crawford", 
     email = 'atcrawford18@gmail.com',
     role = c('cre', 'aut')), 
@@ -13,8 +13,9 @@ Authors@R: c(person("Andrew", "Crawford",
     email = "kaloklee@gmail.com", 
     role = c('aut'))
       )
-Description: A pair of functions for calculating mean, median, and/or percentile 
-    residual life using the outputs of either the 'flexsurv' package or parameters
+Description: A pair of functions for calculating mean residual life (MRL), 
+    median residal life, and percentile residual life using the outputs of 
+    either the 'flexsurv' package or parameters
     provided by the user. Input information about the distribution, the given
     'life' value, the percentile, and the type of residual life, 
     and the function will return your desired values. For the 'flexsurv' option,
