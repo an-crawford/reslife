@@ -1,3 +1,3 @@
-# reslife 0.1.0
+# reslife 0.1.1
 
-* Initial CRAN submission.
+* Updates to the genF + some other ease of use updates. 
