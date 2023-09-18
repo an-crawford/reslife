@@ -3,7 +3,7 @@
 The repository for the R package 
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/reslife)](https://cran.r-project.org/web/packages/reslife/index.html)
-[![Licence](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![License](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 ## Installation (CRAN)
 ```r
