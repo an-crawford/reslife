@@ -102,7 +102,7 @@ gengamma_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.frame())
 
       s = fsroutput$coefficients
 
-      mu = as.matrix(fsroutput$data$mml$mu) %*% as.numeric(s[-c(1,3)])
+      mu = as.matrix(fsroutput$data$mml$mu) %*% as.numeric(s[-c(2,3)])
       a = exp(mu - (log(Q^(-2))*sigma)/(abs(Q)))
     }
 
