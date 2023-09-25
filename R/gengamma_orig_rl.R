@@ -3,10 +3,11 @@
 #######################
 
 ####Written by Zekai Wang ####
+####Updated by Ka Lok Lee Sep 2023 
+####
 
-
-upper_incomplete_gamma <- function(x,a) {
-  #return (incgam(x,a))
+upper_incomplete_gamma1 <- function(x,a) {
+# the arguments here are switched from Wolfram
   return (gamma(a) * pgamma(x, a, 1, lower.tail = FALSE))
 }
 
@@ -53,9 +54,9 @@ gengamma_orig_rl = function(fsroutput, x, p=.5, type = 'all', newdata = data.fra
       a = exp(as.matrix(X) %*% as.numeric(sc))
     }
   }
-
+  
   sx = pgengamma.orig(x, shape = b, scale = a, k = k, lower.tail = FALSE)
-  mx = as.numeric(a * upper_incomplete_gamma((x/a)^b, k + 1/b)/upper_incomplete_gamma((x/a)^b, k) - x)
+  mx = as.numeric(a * upper_incomplete_gamma1((x/a)^b, k + 1/b)/upper_incomplete_gamma1((x/a)^b, k) - x)
   px = function(p){
     pc = (1-p)*sx
     px = as.numeric(qgengamma.orig(pc, shape = b, scale = a, k = k, lower.tail = FALSE) - x)
