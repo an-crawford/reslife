@@ -1,3 +1,3 @@
-# reslife 0.1.1
+# reslife 0.2.1
 
-* Updates to the genF + some other ease of use updates. 
+* Updates to genF and genF.orig to handle all values of parameters. 

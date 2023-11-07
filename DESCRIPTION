@@ -1,8 +1,8 @@
 Package: reslife
 Type: Package
 Title: Calculate Mean Residual Life (MRL) and Related Values for Different Distributions
-Version: 0.1.1
-Date: 2023-09-15
+Version: 0.2.1
+Date: 2023-10-26
 Authors@R: c(person("Andrew", "Crawford", 
     email = 'atcrawford18@gmail.com',
     role = c('cre', 'aut')), 
